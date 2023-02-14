@@ -70,12 +70,8 @@
 
 <script>
 import { computed } from '@vue/runtime-core'
-<<<<<<< HEAD
-import { useRouter } from 'vue-router'
-=======
 import { useRouter,useRoute } from 'vue-router'
 
->>>>>>> 25a2ef9 (完善)
 import { useStore } from 'vuex'
 import MusicList from '../../../components/Music-List.vue'
 import SongItem from '../../../components/SongItem.vue'
@@ -89,13 +85,9 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
-<<<<<<< HEAD
-
-=======
     const route = useRoute()
     const singerid=route.query.value
     store.dispatch('singer/getSingerInfoAction', singerid)
->>>>>>> 25a2ef9 (完善)
     const singerinfo = computed(() => store.state.singer.singerinfo)
     const singermv = computed(() => store.state.singer.singermv)
     const singerdesc = computed(() => store.state.singer.singerdesc)

@@ -8,23 +8,15 @@
           v-model="iptvalue"
           @keyup.enter="enterClick"
           @input="iptInput"
-<<<<<<< HEAD
-=======
           @focus="iptFocus"
           @focusout="iptFocusout"
->>>>>>> 25a2ef9 (完善)
         />
         <button class="btn" @click="enterClick">
           <el-icon><Search /></el-icon>
         </button>
       </div>
-<<<<<<< HEAD
-      <div v-if="iptvalue.length" class="search-think">
-        <div class="title">搜"{{ iptValue }}"相关的用户></div>
-=======
       <div v-if="iptvalue.length&&isShowSearchThink" class="search-think">
         <div class="title">搜"{{ iptvalue }}"相关的用户></div>
->>>>>>> 25a2ef9 (完善)
         <div class="song">
           <div class="left">单曲</div>
           <div class="right">
@@ -86,11 +78,7 @@
         <el-tab-pane class="iyricitem item" label="歌词"> 歌词</el-tab-pane>
         <el-tab-pane class="listitem item" label="歌单"> 歌单</el-tab-pane>
         <el-tab-pane class="voiceitem item" label="声音主播"
-<<<<<<< HEAD
-          >生意主播
-=======
           >声音主播
->>>>>>> 25a2ef9 (完善)
         </el-tab-pane>
         <el-tab-pane class="useritem item" label="用户"> 用户</el-tab-pane>
       </el-tabs>
@@ -117,10 +105,7 @@ export default {
     const iptValue = route.query.value
     const iptvalue = ref('')
     const iptThink = ref({})
-<<<<<<< HEAD
-=======
     const isShowSearchThink=ref(false)
->>>>>>> 25a2ef9 (完善)
     iptvalue.value = iptValue
     const tableData = ref([])
     watch(searchinfo, (newValue) => {
@@ -142,28 +127,11 @@ export default {
       store.dispatch('search/getSearchInfoAction', iptvalue.value)
     }
     const musicplay = (e) => {
-<<<<<<< HEAD
-      console.log(searchinfo.value.songs[0].id)
-      console.log(e)
-=======
->>>>>>> 25a2ef9 (完善)
       const musicContent = {
         index: e.index - 1,
         id: searchinfo.value.songs[0].id,
         list: searchinfo.value.songs
       }
-<<<<<<< HEAD
-      console.log(musicContent)
-      store.dispatch('getMusicListAction', musicContent)
-    }
-    const iptInput = debounce(async () => {
-      console.log(iptValue.value)
-      const res = await getSearchSuggest(iptValue.value)
-      console.log(res)
-      iptThink.value = res.result
-      console.log(iptThink.value)
-    }, 1000)
-=======
       store.dispatch('getMusicListAction', musicContent)
     }
     const iptInput = debounce(async () => {
@@ -178,18 +146,11 @@ export default {
     const iptFocusout=()=>{
       isShowSearchThink.value=false
     }
->>>>>>> 25a2ef9 (完善)
     return {
       iptvalue,
       searchinfo,
       tableData,
       iptThink,
-<<<<<<< HEAD
-
-      enterClick,
-      musicplay,
-      iptInput
-=======
       isShowSearchThink,
 
       enterClick,
@@ -197,7 +158,6 @@ export default {
       iptInput,
       iptFocus,
 iptFocusout
->>>>>>> 25a2ef9 (完善)
     }
   }
 }

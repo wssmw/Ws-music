@@ -25,19 +25,12 @@
           v-model="iptValue"
           placeholder="音乐/视频/电台/用户"
           @keyup.enter="enterClick"
-<<<<<<< HEAD
-          type="text"
-        />
-      </div>
-      <div v-if="iptValue.length" class="search-think">
-=======
           @focus="iptFocus"
           @focusout="iptFocusout"
           type="text"
         />
       </div>
       <div v-if="isShowSearchThink&&iptValue.length>0" class="search-think">
->>>>>>> 25a2ef9 (完善)
         <div class="title">搜"{{ iptValue }}"相关的用户></div>
         <div class="song">
           <div class="left">单曲</div>
@@ -124,10 +117,7 @@ export default {
     const isActive = ref(false)
     const isLogin = ref(false)
     const iptValue = ref('')
-<<<<<<< HEAD
-=======
     const isShowSearchThink = ref(false)
->>>>>>> 25a2ef9 (完善)
     const iptRef = ref()
     const imgUrl = ref('')
     const userInfo = computed(() => store.state.userinfo)
@@ -175,20 +165,13 @@ export default {
         }
       }, 3000)
     }
-<<<<<<< HEAD
-
-=======
     // 取消登录
->>>>>>> 25a2ef9 (完善)
     const cancleLogin = () => {
       document.body.style.overflow = 'visible'
       clearInterval(check)
       isActive.value = false
     }
-<<<<<<< HEAD
-=======
     // 退出
->>>>>>> 25a2ef9 (完善)
     const exitClick = async () => {
       const res = await getExitLogin()
       store.commit('changeUserInfo', '')
@@ -196,28 +179,20 @@ export default {
       isLogin.value = false
       console.log(res)
     }
-<<<<<<< HEAD
-    const iptInput = debounce(async () => {
-=======
     // 输入框输入，防抖
     const iptInput = debounce(async () => {
       isShowSearchThink.value=true
->>>>>>> 25a2ef9 (完善)
       console.log(iptValue.value)
       const res = await getSearchSuggest(iptValue.value)
       console.log(res)
       iptThink.value = res.result
       console.log(iptThink.value)
     }, 1000)
-<<<<<<< HEAD
-    const enterClick = () => {
-=======
     // 按回车键跳转
     const enterClick = () => {
       iptRef.value.blur()
       isShowSearchThink.value=false
       console.log("12");
->>>>>>> 25a2ef9 (完善)
       store.dispatch('search/getSearchInfoAction', iptValue.value)
       router.push({
         path: '/search',
@@ -226,15 +201,12 @@ export default {
         }
       })
     }
-<<<<<<< HEAD
-=======
     const iptFocus=()=>{
       isShowSearchThink.value=true
     }
     const iptFocusout=()=>{
       isShowSearchThink.value=false
     }
->>>>>>> 25a2ef9 (完善)
     return {
       tohome,
       isActive,
@@ -244,22 +216,15 @@ export default {
       iptValue,
       iptRef,
       iptThink,
-<<<<<<< HEAD
-=======
       isShowSearchThink,
->>>>>>> 25a2ef9 (完善)
 
       loginClick,
       cancleLogin,
       exitClick,
       iptInput,
-<<<<<<< HEAD
-      enterClick
-=======
       enterClick,
       iptFocus,
       iptFocusout
->>>>>>> 25a2ef9 (完善)
     }
   }
 }

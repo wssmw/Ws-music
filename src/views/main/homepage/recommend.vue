@@ -115,36 +115,24 @@ export default {
     }
     const { week, day } = getWeekDate()
     const playlistClick = (item) => {
-<<<<<<< HEAD
-      store.dispatch('playlist/getMusicListContentAction', item.id)
-      router.push({
-        path: '/main/playlist'
-=======
       // store.dispatch('playlist/getMusicListContentAction', item.id)
       router.push({
         path: '/main/playlist',
         query:{
           value:item.id
         }
->>>>>>> 25a2ef9 (完善)
       })
     }
     const dayrecommendClick = () => {
       router.push('/main/dayrecommend')
     }
     const singerClick = (item) => {
-<<<<<<< HEAD
-      store.dispatch('singer/getSingerInfoAction', item.id)
-      router.push({
-        path: '/main/singer'
-=======
       // store.dispatch('singer/getSingerInfoAction', item.id)
       router.push({
         path: '/main/singer',
         query:{
           value:item.id
         }
->>>>>>> 25a2ef9 (完善)
       })
     }
     return {

@@ -47,13 +47,6 @@ export default {
     Width:{
       type:Number,
       default:100
-<<<<<<< HEAD
-    }
-  },
-  setup(props) {
-    const store = useStore()
-    const tableData = ref([])
-=======
     },
     musicid:{
       type:String,
@@ -65,7 +58,6 @@ export default {
     const store = useStore()
     const tableData = ref([])
     store.dispatch('playlist/getMusicListContentAction', props.musicid  )
->>>>>>> 25a2ef9 (完善)
     const musiclistContent = computed(
       () => store.state.playlist.musiclistContent
     )
