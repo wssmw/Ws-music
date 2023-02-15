@@ -3,7 +3,7 @@
     <Navbar :bannerList="bannerList" />
     <div class="recommend">
       <!-- 个性化推荐 -->
-      <div class="myrecommend" v-if="recommendresource">
+      <div class="myrecommend" v-if="userinfo">
         <SectionTitle title="个性化推荐" />
         <div class="itemlist">
           <div class="item" @click="dayrecommendClick">
@@ -71,6 +71,7 @@ import Navbar from '../../../components/Navbar.vue'
 import SongItem from '../../../components/SongItem.vue'
 import SectionTitle from '../../../components/SectionTitle.vue'
 import NewSong from '../../../components/New-Song.vue'
+import LocalCache from '../../../utils/cache'
 export default {
   comments: {
     Navbar,
@@ -81,6 +82,8 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    //判断是否登录
+    const userinfo = LocalCache.getCache('userinfo')
     store.dispatch('recommend/getBannerListAction')
     store.dispatch('recommend/getGoodListAction')
     store.dispatch('recommend/getNewSongAction')
@@ -143,6 +146,7 @@ export default {
       newSong,
       artists,
       recommendresource,
+      userinfo,
 
       playlistClick,
       dayrecommendClick,
