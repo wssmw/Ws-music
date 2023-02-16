@@ -111,7 +111,6 @@ import { computed, ref } from 'vue'
 import LocalCache from '../utils/cache'
 import { useStore } from 'vuex'
 import { debounce } from 'lodash'
-import { getSearchSuggest } from '../service/main/search'
 export default {
   setup() {
     const isActive = ref(false)
@@ -123,7 +122,7 @@ export default {
     const userInfo = computed(() => store.state.userinfo)
     const router = useRouter()
     const store = useStore()
-    const iptThink = ref({})
+    const iptThink = computed(()=>store.state.search.searchsuggest)
     let check = null
     const tohome = () => {
       router.push('/main')
@@ -144,12 +143,10 @@ export default {
       const res = await getloginkey(nowtime)
       const key = res.data.unikey
       const res1 = await getbase64(key)
-      console.log(res1.data.qrimg)
       imgUrl.value = res1.data.qrimg
       check = setInterval(async (res) => {
         let nowtime2 = new Date().getTime()
         const res3 = await getlogintext(key, nowtime2)
-        console.log(res3)
         if (res3.code == 800) {
           clearInterval(check)
         }
@@ -177,23 +174,18 @@ export default {
       store.commit('changeUserInfo', '')
       LocalCache.deleteCache('userinfo')
       isLogin.value = false
-      console.log(res)
     }
     // 输入框输入，防抖
     const iptInput = debounce(async () => {
       isShowSearchThink.value=true
-      console.log(iptValue.value)
-      const res = await getSearchSuggest(iptValue.value)
-      console.log(res)
-      iptThink.value = res.result
-      console.log(iptThink.value)
+      store.dispatch('search/getSearchSuggestAction',iptValue.value)
+      // const res = await getSearchSuggest(iptValue.value)
+      // iptThink.value = res.result
     }, 1000)
     // 按回车键跳转
     const enterClick = () => {
       iptRef.value.blur()
       isShowSearchThink.value=false
-      console.log("12");
-      store.dispatch('search/getSearchInfoAction', iptValue.value)
       router.push({
         path: '/search',
         query: {

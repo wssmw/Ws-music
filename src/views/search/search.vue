@@ -6,6 +6,7 @@
           class="ipt"
           type="text"
           v-model="iptvalue"
+          ref="iptRef"
           @keyup.enter="enterClick"
           @input="iptInput"
           @focus="iptFocus"
@@ -15,11 +16,12 @@
           <el-icon><Search /></el-icon>
         </button>
       </div>
-      <div v-if="iptvalue.length&&isShowSearchThink" class="search-think">
+      <div v-if="iptvalue.length>0&&isShowSearchThink" class="search-think">
         <div class="title">搜"{{ iptvalue }}"相关的用户></div>
         <div class="song">
           <div class="left">单曲</div>
           <div class="right">
+            <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!这里有问题 -->
             <template v-for="item in iptThink.songs">
               <div class="item">{{ item.name }}-{{ item.artists[0].name }}</div>
             </template>
@@ -59,7 +61,7 @@
       <el-tabs class="tabs" type="border-card" stretch>
         <el-tab-pane class="songitem item" label="单曲">
           <el-table
-            :data="tableData"
+            :data="tableData" 
             style="width: 100%"
             @cell-click="musicplay"
           >
@@ -93,7 +95,6 @@ import { useRoute } from 'vue-router'
 import MusicList from '../../components/Music-List.vue'
 import { formatTime } from '../../utils/format'
 import { debounce } from 'lodash'
-import { getSearchSuggest } from '../../service/main/search'
 export default {
   components: {
     MusicList
@@ -101,17 +102,22 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const searchinfo = computed(() => store.state.search.searchinfo)
     const iptValue = route.query.value
+    store.dispatch('search/getSearchInfoAction', iptValue)
+    const searchinfo = computed(() => store.state.search.searchinfo)
+    console.log(searchinfo,111);
+    const iptRef = ref()
+    
     const iptvalue = ref('')
-    const iptThink = ref({})
+    const iptThink = computed(() => store.state.search.searchsuggest)
+    console.log(iptThink.value);
     const isShowSearchThink=ref(false)
     iptvalue.value = iptValue
     const tableData = ref([])
     watch(searchinfo, (newValue) => {
+      console.log("数据更新");
       tableData.value = []
-      console.log(newValue)
-      let arr = newValue.songs
+      let arr = newValue?.songs
       for (let i = 0; i < arr.length; i++) {
         const s = {
           index: i + 1,
@@ -124,6 +130,8 @@ export default {
       }
     })
     const enterClick = () => {
+      iptRef.value.blur()
+      isShowSearchThink.value=false   
       store.dispatch('search/getSearchInfoAction', iptvalue.value)
     }
     const musicplay = (e) => {
@@ -135,10 +143,11 @@ export default {
       store.dispatch('getMusicListAction', musicContent)
     }
     const iptInput = debounce(async () => {
-      console.log(1);
-      const res = await getSearchSuggest(iptValue.value||iptvalue.value)
-      console.log(res);
-      iptThink.value = res.result
+      store.dispatch('search/getSearchSuggestAction',iptvalue.value)
+      // console.log(1);
+      // const res = await getSearchSuggest(iptValue.value||iptvalue.value)
+      // console.log(res);
+      // iptThink.value = res.result
     }, 1000)
     const iptFocus=()=>{
       isShowSearchThink.value=true
@@ -152,6 +161,7 @@ export default {
       tableData,
       iptThink,
       isShowSearchThink,
+      iptRef,
 
       enterClick,
       musicplay,

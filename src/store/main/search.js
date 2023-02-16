@@ -1,6 +1,6 @@
 import {
   getSearchSuggest,
-  getSearchInfo
+  getSearchInfo,
 } from "@/service/main/search";
 
 const SingerMoudle = {
@@ -18,6 +18,9 @@ const SingerMoudle = {
     changeIptValue(state, s) {
       state.iptValue = s
     },
+    changeSearchSuggest(state,obj){
+      state.searchsuggest=obj
+    }
   },
   actions: {
     async getSearchInfoAction({ commit }, keywords) {
@@ -25,6 +28,10 @@ const SingerMoudle = {
       console.log(searchinfo,'dasd');
       commit('changeSearchInfo',searchinfo.result)
       commit('changeIptValue',keywords)
+    },
+    async getSearchSuggestAction({ commit }, keywords) {
+      const res = await getSearchSuggest(keywords)
+      commit('changeSearchSuggest',res.result)
     }
   },
 }
