@@ -26,7 +26,7 @@ export default {
 <style lang="less" scoped>
 .active {
   border-radius: 20px;
-  background-color: red;
+  background-color: #ffffff;
 }
 .select {
   background-color: #aaa;
@@ -42,7 +42,7 @@ export default {
     margin: 0 40px;
     &:hover {
       border-radius: 20px;
-      background-color: red;
+      background-color: #dfe4ea;
     }
   }
 }

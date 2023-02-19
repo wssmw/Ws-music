@@ -39,7 +39,10 @@ export default {
 
 <style lang="less" scoped>
 .box {
+  display: flex;
+  flex-direction: column;
   .top {
+    flex: 3;
     position: relative;
     .img {
       width: 100%;
@@ -56,6 +59,7 @@ export default {
     }
   }
   .bottom {
+    flex: 3;
     margin-top: 10px;
     font-size: 16px;
     font-weight: 600;

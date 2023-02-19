@@ -7,20 +7,18 @@
         <SectionTitle title="个性化推荐" />
         <div class="itemlist">
           <div class="item" @click="dayrecommendClick">
-            <div class="day-week">{{ week }}</div>
-            <div class="day-date">{{ day }}</div>
-            <div class="day-title">每日歌曲推荐</div>
-            <div class="day-dec">根据你的口味生成</div>
-            <div class="day-update">每天6:00更新</div>
+            <div class="time">
+              <div class="day-week">{{ week }}</div>
+              <div class="day-date">{{ day }}</div>
+            </div>
+            <div class="desc">
+              <div class="day-title">每日歌曲推荐</div>
+              <div class="day-update">每天6:00更新</div>
+            </div>
           </div>
           <template v-for="item in recommendresource">
-            <SongItem
-              class="item"
-              :imgurl="item.picUrl"
-              :name="item.name"
-              :playCount="item.playcount"
-              @click="playlistClick(item)"
-            />
+            <SongItem class="item" :imgurl="item.picUrl" :name="item.name" :playCount="item.playcount"
+              @click="playlistClick(item)" />
           </template>
         </div>
       </div>
@@ -29,13 +27,8 @@
         <SectionTitle title="推荐歌单" />
         <div class="itemlist">
           <template v-for="item in goodList">
-            <SongItem
-              class="item"
-              :imgurl="item.picUrl"
-              :name="item.name"
-              :playCount="item.playCount"
-              @click="playlistClick(item)"
-            />
+            <SongItem class="item" :imgurl="item.picUrl" :name="item.name" :playCount="item.playCount"
+              @click="playlistClick(item)" />
           </template>
         </div>
       </div>
@@ -121,8 +114,8 @@ export default {
       // store.dispatch('playlist/getMusicListContentAction', item.id)
       router.push({
         path: '/main/playlist',
-        query:{
-          value:item.id
+        query: {
+          value: item.id
         }
       })
     }
@@ -133,8 +126,8 @@ export default {
       // store.dispatch('singer/getSingerInfoAction', item.id)
       router.push({
         path: '/main/singer',
-        query:{
-          value:item.id
+        query: {
+          value: item.id
         }
       })
     }
@@ -160,6 +153,7 @@ export default {
 .recommend {
   width: 80%;
   margin: 0 auto;
+
   .hotrecommend,
   .myrecommend {
     .itemlist {
@@ -173,56 +167,74 @@ export default {
         width: 23%;
         display: flex;
         flex-direction: column;
-        .day-week {
-          font-size: 30px;
-          border-top-left-radius: 20px;
-          border-top-right-radius: 20px;
-          text-align: center;
-          background-color: red;
+
+        .time {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+
+          .day-week {
+            flex: 1;
+            background-color: green;
+            font-size: 30px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            display: flex;
+            justify-content: center;
+            // background-color: red;
+          }
+
+          .day-date {
+            flex: 3;
+            background-color: red;
+            text-align: center;
+            font-size: 120px;
+            font-weight: 1000;
+            border-end-end-radius: 20px;
+            border-end-start-radius: 20px;
+          }
         }
-        .day-date {
-          flex: 1;
-          background-color: green;
-          text-align: center;
-          font-size: 120px;
-          font-weight: 1000;
-          border-end-end-radius: 20px;
-          border-end-start-radius: 20px;
-        }
-        .day-title {
-          font-size: 15px;
-        }
-        .day-dec {
-          font-size: 10px;
-        }
-        .update {
-          font-size: 10px;
+
+        .desc {
+          margin-top: 8px;
+          .day-title {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 600;
+          }
+          .day-update {
+            font-size: 14px;
+          }
         }
       }
     }
   }
+
   .artists {
     .box {
       display: flex;
+
       .content {
         display: flex;
         margin: 0 10px;
         flex-direction: column;
         align-items: center;
         flex: 1;
+
         .img {
           border-radius: 50%;
           width: 100%;
           overflow: hidden;
+
           img {
             width: 100%;
           }
         }
+
         .name {
           margin-top: 20px;
         }
       }
     }
   }
-}
-</style>
+}</style>

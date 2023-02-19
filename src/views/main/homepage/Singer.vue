@@ -115,7 +115,7 @@ export default {
 .singer {
   width: 80%;
   margin: 0 auto;
-  background-color: red;
+  background-color: #dfe4ea;
   height: 1000px;
   .top {
     display: flex;

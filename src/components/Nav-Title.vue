@@ -111,8 +111,13 @@ import { computed, ref } from 'vue'
 import LocalCache from '../utils/cache'
 import { useStore } from 'vuex'
 import { debounce } from 'lodash'
+import { onMounted } from 'vue'
 export default {
   setup() {
+    onMounted(()=>{
+      console.log("被挂载");
+    })
+      
     const isActive = ref(false)
     const isLogin = ref(false)
     const iptValue = ref('')
@@ -151,6 +156,7 @@ export default {
           clearInterval(check)
         }
         if (res3.code == 803) {
+          console.log("账号登录");
           clearInterval(check)
           isLogin.value = true
           isActive.value = false
@@ -225,19 +231,19 @@ export default {
 <style lang="less" scoped>
 .active {
   border-radius: 20px;
-  background-color: red;
+  background-color: #747d8c;
 }
 .title {
   display: flex;
-  background-color: #242424;
+  background-color: #2f3542;
   align-items: center;
   justify-content: space-between;
   height: 70px;
   font-size: 25px;
   font-weight: 800;
-  color: #ccc;
+  color: #551a8b;
   .left {
-    color: #ccc;
+    color: #551a8b;
     margin-left: 10%;
     display: flex;
     align-items: center;
@@ -249,7 +255,7 @@ export default {
     .index,
     .music,
     .find {
-      color: #ccc;
+      color: #551a8b;
       margin: 0 30px;
       padding: 0 10px;
       display: flex;
@@ -257,7 +263,7 @@ export default {
       align-items: center;
       &:hover {
         border-radius: 20px;
-        background-color: red;
+        background-color: #dfe4ea;
       }
     }
   }
@@ -386,7 +392,9 @@ export default {
         background-color: white;
         border-radius: 20px;
         .title {
-          color: #999;
+          height: 40px;
+          background-color: white;
+          color:#566270;
         }
         .qrcode {
           width: 50%;
