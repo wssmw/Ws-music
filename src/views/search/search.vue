@@ -105,7 +105,6 @@ export default {
     const iptValue = route.query.value
     store.dispatch('search/getSearchInfoAction', iptValue)
     const searchinfo = computed(() => store.state.search.searchinfo)
-    console.log(searchinfo,111);
     const iptRef = ref()
     
     const iptvalue = ref('')

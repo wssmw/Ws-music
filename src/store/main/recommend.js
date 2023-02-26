@@ -65,6 +65,7 @@ const RecommendMoudle = {
     },
     async getRecommendResourceAction({ commit }) {
       const recommendresource = await getRecommendResource()
+      console.log(recommendresource);
       commit('changeRecommendResource', recommendresource.recommend)
     }
   }

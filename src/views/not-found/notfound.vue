@@ -1,42 +1,64 @@
 <template>
-  <div class="box">
-    <el-popover
-      placement="bottom"
-      :width="200"
-      trigger="click"
-    >
-    <h1>hahah</h1>
-      <template #reference>
-        <h2>click</h2>
-      </template>
-    </el-popover>
-    <div>NOT FOUND 基于网易云api的后端,如有侵权立马删除</div>
+  <div class="not-found">
+    <div class="left"></div>
+    <div class="center">
+      <SearchThink @search='search' :content="content" @Clickcb="cb">
+        <!-- {{ content }} -->
+        <template v-for="item in content">
+          <div class="item">{{ item }}</div>
+        </template>
+      </SearchThink>
+    </div>
+    <div class="right"></div>
   </div>
 </template>
 
 <script>
+import SearchThink from '../../base_ui/Search-Think.vue'
+import { ref } from 'vue';
+import router from '@/router';
 export default {
+  components: {
+    SearchThink
+  },
   setup() {
-    return {}
+    const content = ref([])
+    const search = (value) => {
+      console.log("value:",value);
+      console.log("search函数执行");
+      content.value.push(1)
+    }
+    const cb = () =>{
+      router.push('/main/recommend')
+      console.log(1);
+    }
+    return {
+      search,
+      content,
+      cb
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.box {
-  position: relative;
-  width: 800px;
-  height: 200px;
-  .bg-img,
-  .bgcover {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+.not-found {
+  display: flex;
+
+  .left {
+    flex: 1;
   }
-  .bgcover {
-    background-color: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(20px);
+
+  .center {
+    flex: 1;
+    .item {
+      width: 100%;
+      background-color:red;
+    }
+  }
+
+  .right {
+    flex: 1;
   }
 }
 </style>
