@@ -22,9 +22,7 @@
             <img class="img" src="../assets/img/分享.png" alt="" />
           </div>
           <div class="time">
-            {{ formatTimetoms(audioInfo.slidertime.toFixed(0)) }}/{{
-              formatTimetoms(audioInfo.maxtime.toFixed(0))
-            }}
+            {{ formatTimetoms(audioInfo.slidertime) }}
           </div>
         </div>
       </div>

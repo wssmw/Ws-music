@@ -3,7 +3,7 @@
     <div class="singer" v-if="selectindex === 0">
       <div class="title">我的歌手</div>
       <template v-for="item in itemData">
-        <div class="item">
+        <div class="item" @click="GoToSinger(item)">
           <div class="left">
             <img class="img" :src="item.picUrl" alt="" />
           </div>
@@ -20,7 +20,7 @@
       <div class="title">我的视频</div>
       <div class="content">
         <template v-for="item in itemData">
-          <div class="item">
+          <div class="item" @click="gotoMv(item)">
             <img class="img" :src="item.coverUrl" alt="" />
             <div class="dec">{{ item.title }}</div>
             <div class="author">by{{ item.creator[0].userName }}</div>
@@ -41,6 +41,7 @@
 <script>
 import { ref, watch } from 'vue'
 import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 import { formatCount, formatTime } from '../utils/format'
 import MusicPlayList from './MusicPlayList.vue'
 export default {
@@ -61,6 +62,7 @@ export default {
     const store=useStore()
     const id = ref(0)
     const itemData=ref()
+    const router = useRouter()
       watch(
         () => props.itemData,
         (newValue) => {
@@ -70,11 +72,24 @@ export default {
           itemData.value=newValue
         }
       )
+      const gotoMv = (id) =>{
+        console.log(id);
+      }
+      const GoToSinger = (item ) =>{
+        router.push({
+        path: '/main/singer',
+        query: {
+          value: item.id
+        }
+      })
+      }
     return {
       itemData,
       id,
       formatCount,
-      formatTime
+      formatTime,
+      gotoMv,
+      GoToSinger
     }
   }
 }

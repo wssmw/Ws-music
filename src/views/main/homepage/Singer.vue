@@ -70,7 +70,7 @@
 
 <script>
 import { computed } from '@vue/runtime-core'
-import { useRouter,useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 import { useStore } from 'vuex'
 import MusicList from '../../../components/Music-List.vue'
@@ -86,7 +86,8 @@ export default {
     const store = useStore()
     const router = useRouter()
     const route = useRoute()
-    const singerid=route.query.value
+    const singerid = route.query.value
+    console.log(singerid)
     store.dispatch('singer/getSingerInfoAction', singerid)
     const singerinfo = computed(() => store.state.singer.singerinfo)
     const singermv = computed(() => store.state.singer.singermv)

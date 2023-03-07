@@ -1,6 +1,5 @@
 <template>
   <div class="playlist">
-    <MusicPlayList :Width="80"/>
     <MusicPlayList :Width="80" :musicid="musicListId"/>
   </div>
 </template>

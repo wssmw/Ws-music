@@ -77,7 +77,6 @@ export default {
     })
     const upShow = () => {
       document.body.style.overflow = 'hidden'
-      console.log(1)
       drawer.value = true
     }
     const downshow = () => {
@@ -86,7 +85,8 @@ export default {
     }
     const timechange = () => {
       audioInfo.maxtime = Number(audioRef.value.duration)
-      audioInfo.slidertime = audioRef.value.currentTime.toFixed(0)
+
+      audioInfo.slidertime = Number(audioRef.value.currentTime.toFixed(0))
       for (let i = 0; i < musiclyric.value.length; i++) {
         if (musiclyric.value[i].time > audioRef.value.currentTime * 1000) {
           if (i === 0) {
