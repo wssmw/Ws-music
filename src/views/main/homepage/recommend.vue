@@ -115,7 +115,7 @@ export default {
       router.push({
         path: '/main/playlist',
         query: {
-          value: item.id
+          id: item.id
         }
       })
     }

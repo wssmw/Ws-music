@@ -2,6 +2,8 @@ import axios from 'axios'
 import { ElLoading } from 'element-plus'
 const isLoading = true
 
+const dom = document.querySelector('body')
+
 class WSRequest {
   instance
   interceptors
@@ -26,6 +28,7 @@ class WSRequest {
     // 全局的请求拦截器
     this.instance.interceptors.request.use(
       (config) => {
+        // console.log('loading');
         if (this.showLoading) {
           this.loading = ElLoading.service({
             lock: true,
@@ -37,6 +40,7 @@ class WSRequest {
           })
           setTimeout(() => {
             this.loading.close()
+            // console.log("loading close");
           }, 2000)
         }
         return config
@@ -49,7 +53,7 @@ class WSRequest {
     this.instance.interceptors.response.use(
       (res) => {
         // loading关闭
-        this.loading.close()
+        // this.loading.close()
         const data = res.data
         return data
       },
@@ -58,7 +62,7 @@ class WSRequest {
       //    2.请求成功，但是没有数据，在返回的数据中returnCode时候-1001，用上面这种拦截
       (err) => {
         // 关闭 loading
-        this.loading.close()
+        // this.loading.close()
         if (err.response.status === 404) {
           console.log('404的错误')
         }

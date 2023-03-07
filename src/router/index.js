@@ -45,11 +45,20 @@ const routes = [
     path: '/mv',
     name: 'mv',
     component: () => import('../views/mv/mv.vue'),
-  },
-  {
-    path: '/mvplay',
-    name: 'mvplay',
-    component: () => import('../views/mv/mvplay.vue'),
+    children: [
+      {
+        path: '',
+        redirect: '/mv/mvlist'
+      },
+      {
+        path: '/mv/mvlist',
+        component: () => import('../views/mv/mvlist.vue')
+      },
+      {
+        path: '/mv/mvplay',
+        component: () => import('../views/mv/mvplay.vue')
+      },
+    ]
   },
   {
     path: '/my',

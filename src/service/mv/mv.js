@@ -13,6 +13,7 @@ export function getMvList() {
   })
 }
 export function getMvContent(mvid) {
+  console.log(mvid);
   return wsRequest.get({
     url: MvApi.MvContent,
     params:{

@@ -17,7 +17,7 @@
     <div class="recommend">
       <div class="itemlist">
         <template v-for="item in mvrealation">
-          <div class="item">
+          <div class="item" @click="mvitemClick(item)">
             <div class="box">
               <img class="img" :src="item.coverUrl" alt="" />
               <div class="playcount">{{ formatCount(item.durationms) }}</div>
@@ -35,23 +35,27 @@
 </template>
 
 <script>
-import { computed} from '@vue/runtime-core'
+import { computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import {useRouter} from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { formatCount, formatTime } from '../../utils/format'
 export default {
   setup() {
     const store = useStore()
-    const router=useRouter()
+    const router = useRouter()
+    const route = useRoute()
+    const id = route.query.id
+    store.dispatch('mv/getMvInfoAction', id)
+
     const mvurl = computed(() => store.state.mv.mvurl)
     const mvcontent = computed(() => store.state.mv.mvcontent)
     const mvrealation = computed(() => store.state.mv.mvrealation)
-    const mvitemClick=(item)=>{
-      console.log(item.vid);
-        store.dispatch('mv/getMvInfoAction', item.vid)
-        router.push({
-          path: '/mvplay'
-        })
+    const mvitemClick = (item) => {
+      console.log(item)
+      // store.dispatch('mv/getMvInfoAction', item.vid)
+      // router.push({
+      //   path: '/mvplay'
+      // })
     }
     return {
       mvcontent,

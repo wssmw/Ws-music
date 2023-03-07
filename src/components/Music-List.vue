@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch ,computed} from 'vue'
 import { useStore } from 'vuex'
 import { formatTime, getName } from '../utils/format'
 export default {
@@ -42,35 +42,21 @@ export default {
   },
   setup(props) {
     const store = useStore()
-    const tableData = ref([])
-    tableData.value = []
-    const arr = props.itemData
-    for (let i = 0; i < arr?.length; i++) {
+
+    const tableData = computed(()=>{
+      let itemData = []
+      const arr = props.itemData
+      for (let i = 0; i < arr?.length; i++) {
       const s = {
         index: i + 1,
         name: arr[i].name,
         time: formatTime(arr[i].dt),
         singer: getName(arr[i].ar)
       }
-      tableData.value.push(s)
+      itemData.push(s)
     }
-    watch(
-      () => props.itemData,
-      (newValue) => {
-        tableData.value = []
-        const arr = newValue
-        for (let i = 0; i < arr.length; i++) {
-          const s = {
-            index: i + 1,
-            name: arr[i].name,
-            time: formatTime(arr[i].dt),
-            singer: getName(arr[i].ar)
-          }
-          tableData.value.push(s)
-        }
-      }
-    )
-
+    return itemData
+    })
     const musicplay = (e) => {
       const musicContent = {
         index: e.index - 1,

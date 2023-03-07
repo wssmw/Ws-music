@@ -12,9 +12,9 @@ export default {
   components: {
     MusicPlayList
   },
-  setup() {   
+  setup() {
     const route=useRoute()
-    const musicListId = route.query.value
+    const musicListId = route.query.id
     return {
       musicListId
     }
