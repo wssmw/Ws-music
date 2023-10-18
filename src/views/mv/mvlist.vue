@@ -2,11 +2,9 @@
     <div class="mv">
       <div class="itemlist">
         <template v-for="item in mvlist">
-          <SongItem
+          <MvItem
             class="item"
-            :imgurl="item.cover"
-            :name="item.name"
-            :playCount="item.playCount"
+            :itemData="item"
             @click="mvclick(item)"
           />
         </template>
@@ -19,15 +17,24 @@
   import { computed } from '@vue/runtime-core'
   import { useStore } from 'vuex'
   import SongItem from '../../components/SongItem.vue'
+import MvItem from '@/components/MvItem.vue'
   export default {
     components: {
-      SongItem
-    },
+    SongItem,
+    MvItem
+},
     setup() {
       const router = useRouter()
       const store = useStore()
       store.dispatch('mv/getMvListAction')
-      const mvlist = computed(() => store.state.mv.mvlist)
+      const mvlist = computed(() => store.state.mv.mvlist).value.map(v=>({
+        coverUrl:v.cover,
+        title:v.name,
+        durationms:v.duration,
+        playTime:v.playCount,
+        creator:[{userName:v.artistName}],
+        id:v.id
+      }))
       const mvclick = (item) => {
         router.push({
             path:'/mv/mvplay',
@@ -38,7 +45,6 @@
       }
       return {
         mvlist,
-
         mvclick
       }
     }
@@ -55,10 +61,8 @@
       flex-wrap: wrap;
       flex-shrink: 0;
       .item {
-        padding: 0 1%;
-        width: 18%;
-        display: flex;
-        flex-direction: column;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
     }
   }

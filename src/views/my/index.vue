@@ -1,6 +1,6 @@
 <template>
   <div class="my">
-    <el-container class="content">
+    <el-container class="content" v-if="userinfo != undefined">
       <el-aside class="aside" width="230px">
         <MyAside @selectClick="selectindexHandle" />
       </el-aside>
@@ -8,6 +8,17 @@
         <MyMain :itemData="itemData" :selectindex="selectIndex" />
       </el-container>
     </el-container>
+    <div class="nologin" v-else>
+      <div class="left">
+        <img src="../../assets/img/noLogin.png" alt="" />
+      </div>
+      <div class="right">
+        <div class="first">登录网易云音乐</div>
+        <div class="secend">查看并管理你收藏的私房音乐</div>
+        <div class="third">方便地随时随地收听</div>
+        <el-button class="btn">立即登录</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,7 +39,9 @@ export default {
     const store = useStore()
 
     const userinfo = LocalCache.getCache('userinfo')
-    store.dispatch('my/getMyInfoAction', userinfo.account.id)
+    if (userinfo) {
+      store.dispatch('my/getMyInfoAction', userinfo.account.id)
+    }
     const mysinger = computed(() => store.state.my.mysinger)
     const mymv = computed(() => store.state.my.mymv)
     const mycreatelist = computed(() => store.state.my.mycreatelist)
@@ -62,6 +75,7 @@ export default {
       mycollectlist,
       selectIndex,
       itemData,
+      userinfo,
 
       selectindexHandle
     }
@@ -83,7 +97,45 @@ export default {
     border-right: 1px solid #ccc;
   }
   .main {
+    padding: 30px;
     border-right: 1px solid #ccc;
+  }
+  .nologin {
+    display: flex;
+    width: 980px;
+    min-height: 500px;
+    margin: 0 auto;
+    background-color: white;
+    .left {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 400px;
+      }
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-self: center;
+      align-items: start;
+      .first {
+        font-size: 30px;
+        font-weight: 600;
+        margin: 10px 0;
+        margin-top: 160px;
+      }
+      .secend,.third {
+        margin: 10px 0;
+      }
+      .btn {
+        margin-top: 20px;
+        width: 160px;
+        height: 40px;
+      }
+    }
   }
 }
 </style>

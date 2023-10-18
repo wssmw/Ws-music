@@ -7,15 +7,16 @@
       @cell-click="cellClick"
     >
       <el-table-column
-        v-for="({ prop, label, width, soltName,type },index) in propColumn"
+        v-for="({ prop, label, width, soltName, type }, index) in propColumn"
+        show-overflow-tooltip="true"
         :prop="prop"
         :label="label"
         :key="index"
         :width="width"
         :type="type"
       >
-        <template v-if="soltName" #default = {row,$index}>
-            <slot :name="soltName" :data="row" :index="$index"></slot>
+        <template v-if="soltName" #default="{ row, $index }">
+          <slot :name="soltName" :data="row" :index="$index"></slot>
         </template>
       </el-table-column>
     </el-table>
@@ -33,9 +34,9 @@ export default {
       type: Array,
       default: []
     },
-    cellClick:{
-      type:Function,
-      default:()=>{}
+    cellClick: {
+      type: Function,
+      default: () => {}
     }
   },
   setup(props) {

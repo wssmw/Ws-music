@@ -9,7 +9,7 @@
         <div class="right"></div>
       </div>
     </div>
-    <div class="bottom">{{ name }}</div>
+    <div class="bottom" :style="style">{{ name }}</div>
   </div>
 </template>
 
@@ -28,6 +28,10 @@ export default {
     name: {
       type: String,
       default: ''
+    },
+    style:{
+      type:String,
+      default:''
     }
   },
   setup() {

@@ -3,12 +3,12 @@
     <NavTitle/>
     <router-view></router-view>
     <!-- <div class="bottom"></div> -->
-    <!-- <NavBottom
+    <NavBottom
       @upShow="upShow"
       :audioInfo="audioInfo"
       @playClick="playClick"
       @sliderChange="sliderChange"
-    /> -->
+    />
     <audio
       ref="audioRef"
       @timeupdate="timechange"
@@ -136,9 +136,7 @@ export default {
   z-index: 999999999999999999!important;
 }
 .app {
-  height: 100%;
-  .bottom {
-    height: 60px;
-  }
+  min-width: 1260px;
+  padding-bottom: 70px;
 }
 </style>

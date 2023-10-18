@@ -125,7 +125,7 @@ export default {
     const singerClick = (item) => {
       // store.dispatch('singer/getSingerInfoAction', item.id)
       router.push({
-        path: '/main/singer',
+        path: '/singer',
         query: {
           value: item.id
         }

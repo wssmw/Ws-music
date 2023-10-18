@@ -15,7 +15,10 @@
       我的视频
     </li>
     <el-collapse class="el-collapse">
-      <el-collapse-item class="el-collapse-item" title="创建的歌单" name="1">
+      <el-collapse-item class="el-collapse-item" name="1">
+        <template #title>
+          <span class="collapse-title">创建的歌单</span>
+        </template>
         <template v-for="(item, index) in mycreatelist">
           <div
             class="item"
@@ -32,7 +35,11 @@
           </div>
         </template>
       </el-collapse-item>
-      <el-collapse-item class="el-collapse-item" title="收藏的歌单" name="2">
+      <el-collapse-item class="el-collapse-item" name="2">
+        <template #title>
+          <span class="collapse-title">收藏的歌单</span>
+        </template>
+
         <template v-for="(item, index) in mycollectlist">
           <div
             class="item"
@@ -101,7 +108,9 @@ export default {
     cursor: pointer;
   }
   .el-collapse {
-    background-color: green;
+    .collapse-title {
+      padding-left: 30px;
+    }
     .el-collapse-item__wrap {
       height: 50px !important;
       .el-collapse-item__content {
@@ -110,11 +119,10 @@ export default {
             background-color: #eee;
           }
           cursor: pointer;
-          padding: 5px 0;
+          padding: 10px 10px 10px 30px;
           height: 40px;
           display: flex;
           .left {
-            margin-left: 20px;
             width: 25%;
             .img {
               height: 100%;

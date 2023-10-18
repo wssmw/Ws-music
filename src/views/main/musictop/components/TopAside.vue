@@ -44,7 +44,7 @@ export default {
 
 <style lang="less" scoped>
 .active {
-  background-color: #e6e6e6;
+  background-color: #ccc!important;
 }
 .content {
   cursor: pointer;
@@ -53,7 +53,7 @@ export default {
   align-items: center;
   // border: 1px solid black;
   &:hover {
-    background-color: #ccc;
+    background-color: #e6e6e6;
   }
   .left {
     flex: 1;
@@ -66,14 +66,17 @@ export default {
   }
   .right {
     flex: 2;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     .name {
-      font-size: 14px;
+      font-size: 12px;
+      margin: 5px 0;
     }
     .update {
       font-size: 8px;
+      margin: 5px 0;
       color: #bbb;
     }
   }

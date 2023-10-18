@@ -72,8 +72,8 @@ export default {
 
 <style lang="less" scoped>
 .mvplay {
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
   width: 75%;
   margin: 0 auto;
   .box {
@@ -83,18 +83,24 @@ export default {
       text-align: center;
       width: 650px;
       border-right: 1px solid #ccc;
+      padding: 30px;
       // background-color: red;
       .title {
-        font-size: 40px;
-        font-weight: 1000;
+        font-size: 24px;
+        font-weight: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom:10px;
       }
       .video {
-        width: 85%;
+        width: 100%;
       }
     }
     .right {
       flex: 1;
       margin-left: 10px;
+      padding: 20px;
       .title {
         border-bottom: 1px solid #ccc;
         padding-bottom: 10px;
@@ -102,10 +108,16 @@ export default {
       }
       .createtime {
         margin-top: 10px;
+        color: #999;
+        font-size: 12px;
       }
       .playcount {
+        font-size: 12px;
+        color: #999;
       }
       .dec {
+        font-size: 12px;
+        margin-top: 10px;
       }
     }
   }

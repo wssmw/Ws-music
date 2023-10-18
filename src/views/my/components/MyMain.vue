@@ -20,7 +20,8 @@
       <div class="title">我的视频</div>
       <div class="content">
         <template v-for="item in itemData">
-          <div class="item" @click="gotoMv(item)">
+          <MvItem :itemData ='item'/>
+          <!-- <div class="item" @click="gotoMv(item)">
             <img class="img" :src="item.coverUrl" alt="" />
             <div class="dec">{{ item.title }}</div>
             <div class="author">by{{ item.creator[0].userName }}</div>
@@ -28,7 +29,7 @@
             <div class="playcount">
               <el-icon><VideoCamera /></el-icon>{{ formatCount(item.playTime) }}
             </div>
-          </div>
+          </div> -->
         </template>
       </div>
     </div>
@@ -44,10 +45,12 @@ import {useStore} from 'vuex'
 import {useRouter} from 'vue-router'
 import { formatCount, formatTime } from '../../../utils/format'
 import MusicPlayList from '../../../components/MusicPlayList.vue'
+import MvItem from '@/components/MvItem.vue'
 export default {
   components: {
-    MusicPlayList
-  },
+    MusicPlayList,
+    MvItem
+},
   props: {
     itemData: {
       type: Object,
@@ -98,20 +101,19 @@ export default {
 <style lang="less" scoped>
 .mymain {
   width: 100%;
-  margin-top: 20px;
   .singer {
     .title {
       width: 100%;
-      font-size: 30px;
-      font-weight: 800;
+      font-size: 24px;
+      font-weight: normal;
       border-bottom: 2px solid red;
-      margin-bottom: 20px;
+      padding-bottom: 10px;
     }
     .item {
       height: 70px;
       display: flex;
       align-items: center;
-      border-bottom: 1px solid #aaa;
+      border-bottom: 1px solid #ddd;
       .left {
         width: 50px;
         .img {
@@ -134,15 +136,16 @@ export default {
   .mv {
     .title {
       width: 100%;
-      font-size: 30px;
-      font-weight: 800;
+      font-size: 24px;
+      font-weight: normal;
       border-bottom: 2px solid red;
-      margin-bottom: 20px;
+      padding-bottom: 20px;
     }
     .content {
       display: flex;
       flex-shrink: 0;
       flex-wrap: wrap;
+      margin-top: 10px;
 
       .item {
         position: relative;
@@ -152,27 +155,34 @@ export default {
           width: 100%;
         }
         .dec {
-          font-size: 15px;
+          font-size: 14px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
         .author {
           font-size: 10px;
+          color: #666;
         }
         .time {
           color: white;
+          font-size: 12px;
+          font-weight: 600;
           position: absolute;
           bottom: 40px;
           left: 2px;
         }
         .playcount {
           position: absolute;
-          color: white;
           top: 0;
           right: 0%;
           display: flex;
           align-items: center;
+          color: white;
+          padding-left: 10px;
+          font-size: 12px;
+          font-weight: 600;
+          background-color: rgba(0, 0, 0, .2);
         }
       }
     }
