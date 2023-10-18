@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="topaside">
     <template v-for="(item, index) in itemData">
       <div
         :class="[index === currentIndex ? 'active' : '', 'content']"

@@ -39,6 +39,7 @@ export default {
     margin: 0 auto;
   }
   .name {
+    margin: 5px 0;
     margin-left: 10px;
     font-size: 15px;
     display: -webkit-box;
@@ -49,6 +50,7 @@ export default {
   .avatar {
     margin-left: 10px;
     font-size: 10px;
+    color: #666;
   }
 }
 </style>

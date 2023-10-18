@@ -18,7 +18,7 @@
         </el-icon>我的音乐</router-link>
     </div>
     <div class="right">
-      <SearchThink class="search" @search="iptInput" @Clickcb="enterClick">
+      <!-- <SearchThink class="search" @search="iptInput" @Clickcb="enterClick">
         <div class="search-think">
           <div class="song">
             <div class="left">单曲</div>
@@ -53,7 +53,7 @@
             </div>
           </div>
         </div>
-      </SearchThink>
+      </SearchThink> -->
       <div class="avatar">
         <div class="avatarlogin">
           <div v-if="!isLogin" @click="loginClick">登录</div>
@@ -204,25 +204,28 @@ export default {
 <style lang="less" scoped>
 .active {
   border-radius: 20px;
-  background-color: #747d8c;
+  background-color: black;
 }
 
 .title {
   display: flex;
-  background-color: #2f3542;
+  background-color: #242424;
   align-items: center;
   justify-content: space-between;
   height: 70px;
   font-size: 25px;
   font-weight: 800;
-  color: #551a8b;
+  color: #fff;
 
   .left {
-    color: #551a8b;
+    color: #ccc;
     margin-left: 10%;
     display: flex;
     align-items: center;
     cursor: pointer;
+    .el-icon {
+      margin-right: 10px;
+    }
   }
 
   .center {
@@ -231,16 +234,18 @@ export default {
     .index,
     .music,
     .find {
-      color: #551a8b;
+      color: #ccc;
       margin: 0 30px;
       padding: 0 10px;
       display: flex;
       justify-content: center;
       align-items: center;
-
+      .el-icon {
+        margin-right: 10px;
+      }
       &:hover {
         border-radius: 20px;
-        background-color: #dfe4ea;
+        background-color: #000;
       }
     }
   }

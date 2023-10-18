@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { formatTime } from '../../../utils/format'
+import { formatTime } from '../../utils/format'
 import { computed, ref} from 'vue'
 import { useStore } from 'vuex'
 export default {

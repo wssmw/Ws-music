@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/main',
     name: 'main',
-    component: () => import('../views/main/main.vue'),
+    component: () => import('../views/main'),
     children: [
       {
         path: '',
@@ -17,27 +17,19 @@ const routes = [
       },
       {
         path: '/main/recommend',
-        component: () => import('../views/main/homepage/recommend.vue')
+        component: () => import('../views/main/recommend.vue')
       },
       {
         path: '/main/musictop',
-        component: () => import('../views/main/homepage/musictop.vue')
+        component: () => import('../views/main/musictop')
       },
       {
         path: '/main/musiclist',
-        component: () => import('../views/main/homepage/musiclist.vue')
-      },
-      {
-        path: '/main/playlist',
-        component: () => import('../views/main/homepage/playlist.vue')
-      },
-      {
-        path: '/main/singer',
-        component: () => import('../views/main/homepage/Singer.vue')
+        component: () => import('../views/main/musiclist.vue')
       },
       {
         path: '/main/dayrecommend',
-        component: () => import('../views/main/homepage/dayrecommend.vue')
+        component: () => import('../views/main/dayrecommend.vue')
       },
     ]
   },
@@ -63,7 +55,17 @@ const routes = [
   {
     path: '/my',
     name: 'my',
-    component: () => import('../views/my/my.vue')
+    component: () => import('../views/my')
+  },
+  {
+    path: '/playlist',
+    name: 'playlist',
+    component: () => import('../views/playlist')
+  },
+  {
+    path: '/singer',
+    name: 'singer',
+    component: () => import('../views/singer')
   },
   {
     path: '/search',

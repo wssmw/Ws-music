@@ -1,7 +1,9 @@
 <template>
   <div class="box">
     <div class="top">
-      <img class="img" :src="imgurl" alt="" />
+      <div>
+        <img class="img" :src="imgurl" alt="" />
+      </div>
       <div class="cover">
         <div class="left">{{ formatCount(playCount) }}</div>
         <div class="right"></div>
@@ -45,14 +47,21 @@ export default {
     flex: 3;
     position: relative;
     .img {
+      display: block;
       width: 100%;
       border-radius: 20px;
     }
     .cover {
+      display: flex;
+      align-items: center;
       width: 100%;
+      height: 30px;
       position: absolute;
-      bottom: 10px;
+      bottom: 0px;
       color: #eee;
+      background-color: rgba(0, 0, 0, .4);
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
       .left {
         padding-left: 10px;
       }

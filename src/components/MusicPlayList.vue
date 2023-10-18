@@ -1,5 +1,5 @@
 <template>
-  <div class="musicplaylist" :style="{width:Width+'%'}">
+  <div class="musicplaylist">
     <div class="dec">
       <div class="left">
         <img class="img" :src="musiclistdec.coverImgUrl" alt="" />
@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="button">
-          <button>播放</button>
+          <el-icon><VideoPlay /></el-icon>播放
         </div>
         <div class="tags" v-if="musiclistdec.tags">
           <span>标签:</span>
@@ -25,44 +25,90 @@
         <text class="introduce">介绍:{{ musiclistdec.description }}</text>
       </div>
     </div>
-    <MusicList
-      :itemData="musiclistContent"
-      :trackCount="musiclistdec.trackCount"
-      :playCount="musiclistdec.playCount"
-    />
+    <div class="table">
+      <div class="title">
+        <div class="left">
+          <div class="list">歌曲列表</div>
+          <div class="num">{{ musiclistdec.trackCount }}首歌</div>
+        </div>
+        <div class="right">
+          播放:<span>{{ musiclistdec.playCount }}</span
+          >次
+        </div>
+      </div>
+      <div class="table-main">
+        <WsTable
+          :propColumn="propColumn"
+          :tableData="tableData"
+          :cellClick="musicplay"
+        ></WsTable>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed,   ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
-import { getLocalTime } from '../utils/format'
-
+import { formatTime, getLocalTime, getName } from '../utils/format'
+import WsTable from '@/base_ui/WsTable.vue'
 import MusicList from './Music-List.vue'
 export default {
   components: {
-    MusicList
+    MusicList,
+    WsTable
   },
   props: {
-    Width:{
-      type:Number,
-      default:100
+    Width: {
+      type: Number,
+      default: 100
     },
-    musicid:{
-      type:String,
-      default:0
+    musicid: {
+      type: String,
+      default: 0
     }
   },
   setup(props) {
-    console.log(props.musicid)
     const store = useStore()
-    const tableData = ref([])
-    store.dispatch('playlist/getMusicListContentAction', props.musicid  )
+    store.dispatch('playlist/getMusicListContentAction', props.musicid)
     const musiclistContent = computed(
       () => store.state.playlist.musiclistContent
     )
     const musiclistdec = computed(() => store.state.playlist.musiclistdec)
+    const tableData = computed(() => {
+      const itemData = musiclistContent.value.map((v, i) => ({
+        index: i + 1,
+        name: v.name,
+        time: formatTime(v.dt),
+        singer: getName(v.ar)
+      }))
+      return itemData
+    })
+
+    const propColumn = [
+      {
+        type: 'index'
+      },
+      {
+        prop: 'name',
+        label: '歌曲标题'
+      },
+      {
+        prop: 'time',
+        label: '时长'
+      },
+      {
+        prop: 'singer',
+        label: '歌手'
+      },
+      {
+        prop: 'singer',
+        label: '专辑'
+      }
+    ]
+
     return {
+      propColumn,
       musiclistdec,
       tableData,
       musiclistContent,
@@ -74,28 +120,29 @@ export default {
 
 <style lang="less" scoped>
 .musicplaylist {
+  margin: 40px;
   width: 100%;
   margin: 0 auto;
   .dec {
     display: flex;
     .left {
-      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
+      border: 1px solid black;
       .img {
-        border: 1px solid black;
+        margin: 5px;
         padding: 2px;
-        width: 60%;
+        width: 210px;
       }
     }
     .right {
-      flex: 2;
+      margin-left: 20px;
       display: flex;
       flex-direction: column;
       .name {
         font-size: 20px;
-        font-weight: 800;
+        font-weight: normal;
       }
       .author {
         padding: 10px 0;
@@ -107,28 +154,48 @@ export default {
         .nickname {
           font-size: 10px;
           margin-left: 10px;
-          color: blue;
+          color: #0c73c2;
         }
         .createtime {
           font-size: 10px;
           margin-left: 10px;
+          color: #999;
         }
       }
       .button {
+        margin-top: 10px;
+        width: 80px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        color: white;
+        border: 1px solid black;
+        border-radius: 2px;
+        background-color: #1352a3;
+        cursor: pointer;
+        &:hover {
+          background-color: rgba(13, 52, 66, 0.3);
+        }
+        .el-icon {
+          margin: 0 5px;
+        }
       }
       .tags {
         margin: 10px 0;
         font-size: 12px;
+        color: #999;
         .item {
           margin: 0 10px;
-          border: 1px solid black;
-          padding: 3px;
+          border: 1px solid #999;
+          padding: 0 10px;
           border-radius: 20px;
         }
       }
       .introduce {
+        width: 90%;
         font-size: 12px;
         overflow: hidden;
+        color: #999;
         text-overflow: ellipsis;
         width: 100%;
         display: -webkit-box;
@@ -136,6 +203,37 @@ export default {
         -webkit-line-clamp: 3;
         word-break: break-all;
       }
+    }
+  }
+  .table {
+    margin-top: 40px;
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      .left {
+        display: flex;
+        align-items: center;
+        .list {
+          font-size: 20px;
+        }
+        .num {
+          margin-left: 20px;
+          color: #666;
+        }
+      }
+      .right {
+        span {
+          color: #c20c0c;
+          font-weight: bold;
+        }
+      }
+    }
+    .table-main {
+      margin-top: 10px;
+      border: 1px solid #d3d3d3;
+      border-top: 2px solid #c20c0c;
     }
   }
 }

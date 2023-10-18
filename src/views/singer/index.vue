@@ -73,9 +73,9 @@ import { computed } from '@vue/runtime-core'
 import { useRouter, useRoute } from 'vue-router'
 
 import { useStore } from 'vuex'
-import MusicList from '../../../components/Music-List.vue'
-import SongItem from '../../../components/SongItem.vue'
-import AlbumItem from '../../../components/AlbumItem.vue'
+import MusicList from '../../components/Music-List.vue'
+import SongItem from '../../components/SongItem.vue'
+import AlbumItem from '../../components/AlbumItem.vue'
 export default {
   components: {
     MusicList,

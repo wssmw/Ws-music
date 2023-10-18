@@ -1,11 +1,11 @@
 <template>
   <div class="playlist">
-    <MusicPlayList :Width="80" :musicid="musicListId"/>
+    <MusicPlayList :musicid="musicListId"/>
   </div>
 </template>
 
 <script>
-import MusicPlayList from '../../../components/MusicPlayList.vue'
+import MusicPlayList from '../../components/MusicPlayList.vue'
 import { useRoute } from 'vue-router'
 export default {
   components: {
@@ -23,9 +23,9 @@ export default {
 
 <style lang="less" scoped>
 .playlist {
-  width: 80%;
+  width: 980px;
   margin: 0 auto;
-  padding:10px 0 ;
+  padding:40px;
   border-left: 1px solid #bbb;
   border-right: 1px solid #bbb;
 }

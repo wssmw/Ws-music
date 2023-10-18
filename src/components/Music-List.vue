@@ -8,7 +8,7 @@
       <div class="right">播放:{{ playCount }}次</div>
     </div>
     <div class="sub">
-      <el-table :data="tableData" style="width: 100%" @cell-click="musicplay">
+      <el-table stripe  :data="tableData" style="width: 100%" @cell-click="musicplay">
         <el-table-column width="40">
           <el-icon><VideoPlay /></el-icon>
         </el-table-column>

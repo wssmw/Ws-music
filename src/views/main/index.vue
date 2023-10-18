@@ -26,10 +26,10 @@ export default {
 <style lang="less" scoped>
 .active {
   border-radius: 20px;
-  background-color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .select {
-  background-color: #aaa;
+  background-color: #C20C0C;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -37,12 +37,12 @@ export default {
   .recommend,
   .musictop,
   .musiclist {
-    // color: white;
-    padding: 10px;
+    color: #fff;
+    padding:0 10px;
     margin: 0 40px;
     &:hover {
       border-radius: 20px;
-      background-color: #dfe4ea;
+      background-color: rgba(0, 0, 0, 0.4);
     }
   }
 }

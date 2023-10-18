@@ -31,7 +31,7 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import SongItem from '../../../components/SongItem.vue'
+import SongItem from '../../components/SongItem.vue'
 export default {
   components: {
     SongItem
@@ -61,14 +61,13 @@ export default {
         offset: limit.value * e
       }
       store.dispatch('musiclist/getMusicListAction', s)
-      console.log('cahnge', e)
     }
     const playlistClick = (item) => {
       // store.dispatch('playlist/getMusicListContentAction', item.id)
       router.push({
-        path: '/main/playlist',
+        path: '/playlist',
         query: {
-          value: item.id
+          id: item.id
         }
       })
     }
@@ -103,12 +102,11 @@ export default {
 .musiclist {
   width: 75%;
   margin: 0 auto;
-  padding: 0 40px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  padding: 20px 40px;
+  border-left: 2px solid #d3d3d3;
+  border-right: 2px solid #d3d3d3;
 
   .title {
-    margin: 10px 0;
     display: flex;
     justify-content: space-between;
 

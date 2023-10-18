@@ -1,39 +1,67 @@
 <template>
   <div class="not-found">
-    <button @click="click">点击</button>
-    <test :itemData="itemData"></test>
+    <WsTable :propColumn="propColumn" :tableData="tableData">
+      <template #age="{data,index}">
+        <h2>{{ data.age }}{{ index }}</h2>
+      </template>
+    </WsTable>
   </div>
 </template>
 
 <script>
+import WsTable from '@/base_ui/WsTable.vue'
+import { times } from 'lodash'
 import { reactive } from 'vue'
-import test from './text.vue'
 export default {
   components: {
-    test
-  },
+    WsTable
+},
   setup() {
-    const obj = reactive({ count: 0 })
-    let itemData = reactive([
+    const tableData = [
+
       {
-        name: 'wss',
-        age: 12
+        name:'wss',
+        time:'2020-22-22',
+        age:'88'
       },
       {
-        name: 'wss',
-        age: 12
+        name:'wss',
+        time:'2020-22-22',
+        age:'88'
       },
       {
-        name: 'wss',
-        age: 12
+        name:'wss',
+        time:'2020-22-22',
+        age:'88'
+      },
+      {
+        name:'wss',
+        time:'2020-22-22',
+        age:'88'
+      },
+    ]
+    const propColumn = [
+      {
+        type:'index'
+      },
+      {
+        prop:'name',
+        label:'Name',
+      },
+      {
+        prop:'time',
+        label:'time'
+      },
+      {
+        prop:'age',
+        label:'age',
+        soltName:'age',
+        width:400
       }
-    ])
-    const click = () => {
-      itemData[0].age += 1
-    }
+    ]
     return {
-      itemData,
-      click
+      propColumn,
+      tableData
     }
   }
 }

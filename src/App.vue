@@ -2,13 +2,13 @@
   <div class="app" ello>
     <NavTitle/>
     <router-view></router-view>
-    <div class="bottom"></div>
-    <NavBottom
+    <!-- <div class="bottom"></div> -->
+    <!-- <NavBottom
       @upShow="upShow"
       :audioInfo="audioInfo"
       @playClick="playClick"
       @sliderChange="sliderChange"
-    />
+    /> -->
     <audio
       ref="audioRef"
       @timeupdate="timechange"

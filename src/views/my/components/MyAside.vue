@@ -83,18 +83,18 @@ export default {
 
 <style lang="less" scoped>
 .active {
-  background-color: #aaa!important;
+  background-color: #eee !important;
 }
 .myaside {
-  height: 100%;
+  padding-top: 40px;
   .singer,
   .mv {
     &:hover {
-      background-color: #aaa;
+      background-color: #eee;
     }
     height: 48px;
-    background-color: #eee;
-    border-bottom: 1px solid black;
+    font-size: 14px;
+    background-color: white;
     display: flex;
     align-items: center;
     padding: 0 30px;
@@ -102,44 +102,37 @@ export default {
   }
   .el-collapse {
     background-color: green;
-    .el-collapse-item {
-      // padding: 0 30px;
-      background-color: green;
-      // & >>> .el-collapse-item__wrap {
-      //   height: 50px !important;
-      // }
-
-      .el-collapse-item__wrap {
-        height: 50px !important;
-        .el-collapse-item__content {
-          .item {
-            &:hover {
-              background-color: #aaa;
-            }
-            cursor: pointer;
-            margin: 5px 0;
+    .el-collapse-item__wrap {
+      height: 50px !important;
+      .el-collapse-item__content {
+        .item {
+          &:hover {
             background-color: #eee;
-            height: 40px;
-            display: flex;
-            .left {
-              width: 25%;
-              .img {
-                height: 100%;
-              }
+          }
+          cursor: pointer;
+          padding: 5px 0;
+          height: 40px;
+          display: flex;
+          .left {
+            margin-left: 20px;
+            width: 25%;
+            .img {
+              height: 100%;
             }
-            .right {
-              width: 75%;
-              display: flex;
-              flex-direction: column;
-              margin-left: 10px;
-              .name {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-              }
-              .decs {
-                font-size: 5px;
-              }
+          }
+          .right {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            .name {
+              font-size: 12px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .decs {
+              color: #999;
             }
           }
         }

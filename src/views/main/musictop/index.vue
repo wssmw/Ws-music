@@ -1,10 +1,10 @@
 <template>
   <div class="common-layout">
-    <el-container>
-      <el-aside class="topasider" width="200px">
+    <el-container class="section">
+      <el-aside class="topasider" width="240px">
         <TopAside @click="itemClick" :itemData="musiclist" />
       </el-aside>
-      <el-main>
+      <el-main class="main">
         <TopMain/>
       </el-main>
     </el-container>
@@ -14,8 +14,8 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import TopAside from '../../../components/TopAside.vue'
-import TopMain from '../../../components/TopMain.vue'
+import TopAside from './components/TopAside.vue'
+import TopMain from './components/TopMain.vue'
 export default {
   components: {
     TopAside,
@@ -43,5 +43,12 @@ export default {
 .common-layout {
   width: 75%;
   margin: 0 auto;
+}
+.section {
+  border: 2px solid #d3d3d3;
+}
+.main {
+  padding: 40px;
+  border-left: 2px solid #d3d3d3;
 }
 </style>

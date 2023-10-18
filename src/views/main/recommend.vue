@@ -60,11 +60,11 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
-import Navbar from '../../../components/Navbar.vue'
-import SongItem from '../../../components/SongItem.vue'
-import SectionTitle from '../../../components/SectionTitle.vue'
-import NewSong from '../../../components/New-Song.vue'
-import LocalCache from '../../../utils/cache'
+import Navbar from '../../components/Navbar.vue'
+import SongItem from '../../components/SongItem.vue'
+import SectionTitle from '../../components/SectionTitle.vue'
+import NewSong from '../../components/New-Song.vue'
+import LocalCache from '../../utils/cache'
 export default {
   comments: {
     Navbar,
@@ -85,7 +85,7 @@ export default {
     store.dispatch('recommend/getRecommendResourceAction')
     const bannerList = computed(() => store.state.recommend.bannerList)
     const goodList = computed(() => store.state.recommend.goodList.slice(0, 8))
-    const newSong = computed(() => store.state.recommend.newSong.slice(0, 8))
+    const newSong = computed(() => store.state.recommend.newSong.slice(0, 10))
     const artists = computed(() => store.state.recommend.artists.slice(0, 6))
     const recommendresource = computed(() =>
       store.state.recommend.recommendresource.slice(0, 3)
@@ -113,7 +113,7 @@ export default {
     const playlistClick = (item) => {
       // store.dispatch('playlist/getMusicListContentAction', item.id)
       router.push({
-        path: '/main/playlist',
+        path: '/playlist',
         query: {
           id: item.id
         }

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ElLoading } from 'element-plus'
+// import { ElLoading } from 'element-plus'
 const isLoading = true
 
 const dom = document.querySelector('body')
@@ -29,20 +29,20 @@ class WSRequest {
     this.instance.interceptors.request.use(
       (config) => {
         // console.log('loading');
-        if (this.showLoading) {
-          this.loading = ElLoading.service({
-            lock: true,
-            text: '努力加载中！',
-            target:'body',
-            spinner: 'el-icon-loading',
-            background: 'rgba(0, 0, 0, 0.3)',
-            // customClass:'Z-Loading'
-          })
-          setTimeout(() => {
-            this.loading.close()
-            // console.log("loading close");
-          }, 2000)
-        }
+        // if (this.showLoading) {
+        //   this.loading = ElLoading.service({
+        //     lock: true,
+        //     text: '努力加载中！',
+        //     target:'body',
+        //     spinner: 'el-icon-loading',
+        //     background: 'rgba(0, 0, 0, 0.3)',
+        //     // customClass:'Z-Loading'
+        //   })
+        //   setTimeout(() => {
+        //     this.loading.close()
+        //     // console.log("loading close");
+        //   }, 2000)
+        // }
         return config
       },
       (err) => {
@@ -76,9 +76,9 @@ class WSRequest {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
       }
-      if (config.showLoading === false) {
-        this.showLoading = config.showLoading
-      }
+      // if (config.showLoading === false) {
+      //   this.showLoading = config.showLoading
+      // }
       this.instance
         .request(config)
         .then((res) => {
@@ -87,12 +87,12 @@ class WSRequest {
             // 判断是否有单独的响应结果的拦截器，如果有执行
             res = config.interceptors.responseInterceptor(res)
           }
-          this.showLoading = isLoading
+          // this.showLoading = isLoading
 
           resolve(res)
         })
         .catch((err) => {
-          this.showLoading = isLoading
+          // this.showLoading = isLoading
 
           reject(err)
           return err

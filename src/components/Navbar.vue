@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <el-carousel :interval="4000" type="card" height="200px">
+    <el-carousel :interval="4000" type="card">
       <el-carousel-item v-for="(item, index) in bannerList" :key="item">
         <img class="img" :src="item.imageUrl" alt="" />
       </el-carousel-item>

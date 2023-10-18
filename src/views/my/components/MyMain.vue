@@ -42,8 +42,8 @@
 import { ref, watch } from 'vue'
 import {useStore} from 'vuex'
 import {useRouter} from 'vue-router'
-import { formatCount, formatTime } from '../utils/format'
-import MusicPlayList from './MusicPlayList.vue'
+import { formatCount, formatTime } from '../../../utils/format'
+import MusicPlayList from '../../../components/MusicPlayList.vue'
 export default {
   components: {
     MusicPlayList

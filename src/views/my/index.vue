@@ -1,7 +1,7 @@
 <template>
   <div class="my">
     <el-container class="content">
-      <el-aside class="aside" width="200px">
+      <el-aside class="aside" width="230px">
         <MyAside @selectClick="selectindexHandle" />
       </el-aside>
       <el-container class="main">
@@ -14,8 +14,8 @@
 <script>
 import { useStore } from 'vuex'
 import { computed, ref, watch } from 'vue'
-import MyAside from '../../components/MyAside.vue'
-import MyMain from '../../components/MyMain.vue'
+import MyAside from './components/MyAside.vue'
+import MyMain from './components/MyMain.vue'
 
 import LocalCache from '../../utils/cache'
 
@@ -71,11 +71,12 @@ export default {
 
 <style lang="less" scoped>
 .my {
+  background-color: #eee;
   .content {
-    width: 70%;
+    width: 980px;
     min-height: 600px;
     margin: 0 auto;
-    background-color: #eee;
+    background-color: white;
   }
   .aside {
     border-left: 1px solid #ccc;
