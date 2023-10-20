@@ -1,9 +1,7 @@
 <template>
   <div class="box">
     <div class="top">
-      <div>
-        <img class="img" :src="imgurl" alt="" />
-      </div>
+      <img v-lazy class="img" :src="imgurl" alt="" />
       <div class="cover">
         <div class="left">{{ formatCount(playCount) }}</div>
         <div class="right"></div>
@@ -14,6 +12,7 @@
 </template>
 
 <script>
+import { onMounted, ref } from 'vue'
 import { formatCount } from '../utils/format'
 export default {
   props: {
@@ -29,15 +28,14 @@ export default {
       type: String,
       default: ''
     },
-    style:{
-      type:String,
-      default:''
+    style: {
+      type: String,
+      default: ''
     }
   },
   setup() {
-
     return {
-      formatCount,
+      formatCount
     }
   }
 }
@@ -63,7 +61,7 @@ export default {
       position: absolute;
       bottom: 0px;
       color: #eee;
-      background-color: rgba(0, 0, 0, .4);
+      background-color: rgba(0, 0, 0, 0.4);
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       .left {

@@ -9,7 +9,6 @@ import mv from './mv/mv'
 import my from './my/my'
 import search from './main/search'
 
-
 import { getPlayMusic, getPlayMusicLyric } from '@/service/main/playmusic'
 
 import { parseLyric } from '@/utils/parse-lyric'
@@ -73,13 +72,14 @@ export default createStore({
       state.ismuted = !state.ismuted
     },
     changeX(state, n) {
-      console.log(n, '--------');
       state.x = n
-    },
+    }
   },
   actions: {
     async getMusicListAction({ state, commit }, { index, id, list }) {
+      console.log(index, id, list)
       const res = await getPlayMusic(id)
+      console.log(res)
       const lyricRes = await getPlayMusicLyric(id)
       const lyric = parseLyric(lyricRes.lrc.lyric)
       commit('changeLyric', lyric)
@@ -102,7 +102,7 @@ export default createStore({
       commit('changeListIndex', index)
     },
     async nextMusicAction({ state, commit }, isNext = true) {
-      console.log(1);
+      console.log(1)
       let id = 0
       if (isNext) {
         if (state.orderIndex === 0) {
@@ -110,14 +110,13 @@ export default createStore({
           commit('changeListIndex', state.listIndex + 1)
         } else if (state.orderIndex === 1) {
           const index = Math.floor(Math.random() * state.musiclist.length)
-          console.log(index);
+          console.log(index)
           id = state.musiclist[index].id
           commit('changeListIndex', index)
         } else {
           id = state.musiclist[state.listIndex].id
           commit('changeListIndex', state.listIndex)
         }
-
       } else {
         id = state.musiclist[state.listIndex - 1].id
         commit('changeListIndex', state.listIndex - 1)
@@ -132,8 +131,8 @@ export default createStore({
         commit('changeIsPlaying')
       }
     },
-    changeVoiceIndexAction({ commit,state }, n) {
-      if(state.ismuted||n===0){
+    changeVoiceIndexAction({ commit, state }, n) {
+      if (state.ismuted || n === 0) {
         commit('changeIsMuted')
       }
       commit('changeVoiceIndex', n)

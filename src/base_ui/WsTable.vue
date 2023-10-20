@@ -8,7 +8,7 @@
     >
       <el-table-column
         v-for="({ prop, label, width, soltName, type }, index) in propColumn"
-        show-overflow-tooltip="true"
+        :show-overflow-tooltip="true"
         :prop="prop"
         :label="label"
         :key="index"

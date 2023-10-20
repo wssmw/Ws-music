@@ -39,7 +39,8 @@
           />
           <img
             class="img"
-            v-if="!audioInfo.isPlaying"
+            v-else
+            style="margin-left: 6px;"
             src="../assets/icon/播放2.png"
             alt=""
           />
@@ -271,10 +272,8 @@ export default {
   background: rgba(255, 255, 255, 0.2);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  border-radius: 25px;
   box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.2);
   width: calc(100%);
-  height: 60px;
   position: fixed;
   bottom: 0;
   .slider-demo-block {
@@ -283,7 +282,7 @@ export default {
     }
   }
   .bottom {
-    margin-top: 10px;
+    height: 60px;
     bottom: 0;
     display: flex;
     justify-content: space-around;
@@ -328,6 +327,7 @@ export default {
       .pause,
       .next,
       .prev {
+        cursor: pointer;
         margin: 0 10px;
       }
       .prev .img {

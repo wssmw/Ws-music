@@ -20,7 +20,7 @@
       <div class="title">我的视频</div>
       <div class="content">
         <template v-for="item in itemData">
-          <MvItem :itemData ='item'/>
+          <MvItem :itemData="item" />
           <!-- <div class="item" @click="gotoMv(item)">
             <img class="img" :src="item.coverUrl" alt="" />
             <div class="dec">{{ item.title }}</div>
@@ -34,15 +34,15 @@
       </div>
     </div>
     <div class="musiclist" v-if="selectindex > 1">
-      <MusicPlayList/>
+      <MusicPlayList :musicid="itemData.id"/>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, watch } from 'vue'
-import {useStore} from 'vuex'
-import {useRouter} from 'vue-router'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import { formatCount, formatTime } from '../../../utils/format'
 import MusicPlayList from '../../../components/MusicPlayList.vue'
 import MvItem from '@/components/MvItem.vue'
@@ -50,7 +50,7 @@ export default {
   components: {
     MusicPlayList,
     MvItem
-},
+  },
   props: {
     itemData: {
       type: Object,
@@ -62,35 +62,21 @@ export default {
     }
   },
   setup(props) {
-    const store=useStore()
     const id = ref(0)
-    const itemData=ref()
     const router = useRouter()
-      watch(
-        () => props.itemData,
-        (newValue) => {
-          if (newValue.id) {
-            store.dispatch('playlist/getMusicListContentAction',newValue.id)
-          }
-          itemData.value=newValue
-        }
-      )
-      const gotoMv = (id) =>{
-        console.log(id);
-      }
-      const GoToSinger = (item ) =>{
-        router.push({
+    const gotoMv = (id) => {
+      console.log(id)
+    }
+    const GoToSinger = (item) => {
+      router.push({
         path: '/main/singer',
         query: {
           value: item.id
         }
       })
-      }
+    }
     return {
-      itemData,
       id,
-      formatCount,
-      formatTime,
       gotoMv,
       GoToSinger
     }
@@ -182,7 +168,7 @@ export default {
           padding-left: 10px;
           font-size: 12px;
           font-weight: 600;
-          background-color: rgba(0, 0, 0, .2);
+          background-color: rgba(0, 0, 0, 0.2);
         }
       }
     }

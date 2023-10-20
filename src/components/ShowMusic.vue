@@ -154,6 +154,7 @@ export default {
       .img {
         z-index: 9;
         width: 70%;
+        border-radius: 20px;
       }
     }
     .right {
@@ -161,10 +162,11 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-    z-index: 9;
-
+      z-index: 9;
+      color: white;
       .name {
         font-size: 20px;
+
       }
       .singer {
         margin-top: 10px;

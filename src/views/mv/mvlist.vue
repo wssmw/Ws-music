@@ -27,14 +27,15 @@ import MvItem from '@/components/MvItem.vue'
       const router = useRouter()
       const store = useStore()
       store.dispatch('mv/getMvListAction')
-      const mvlist = computed(() => store.state.mv.mvlist).value.map(v=>({
+      const mvlist = computed(() => store.state.mv.mvlist.map(v=>({
         coverUrl:v.cover,
         title:v.name,
         durationms:v.duration,
         playTime:v.playCount,
         creator:[{userName:v.artistName}],
         id:v.id
-      }))
+      })))
+      console.log(mvlist.value);
       const mvclick = (item) => {
         router.push({
             path:'/mv/mvplay',

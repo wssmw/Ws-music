@@ -1,6 +1,6 @@
 <template>
   <div class="mvitem">
-    <img class="img" :src="itemData.coverUrl" alt="" />
+    <img class="img" v-lazy :src="itemData.coverUrl" alt="" />
     <div class="dec">{{ itemData.title }}</div>
     <div class="author">by<span>{{ itemData.creator[0].userName }}</span></div>
     <div class="time">{{ formatTime(itemData.durationms) }}</div>

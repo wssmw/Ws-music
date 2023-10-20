@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { useStore } from 'vuex'
 import { formatTime, getLocalTime, getName } from '../utils/format'
 import WsTable from '@/base_ui/WsTable.vue'
@@ -77,14 +77,23 @@ export default {
     const musiclistdec = computed(() => store.state.playlist.musiclistdec)
     const tableData = computed(() => {
       const itemData = musiclistContent.value.map((v, i) => ({
-        index: i + 1,
+        index: i,
         name: v.name,
         time: formatTime(v.dt),
-        singer: getName(v.ar)
+        singer: getName(v.ar),
+        id:v.id
       }))
       return itemData
     })
-
+    const musicplay = (e) =>{
+      console.log(musiclistContent.value,e);
+      const musicdec = {
+        index: e.index,
+        id: e.id,
+        list: toRaw(musiclistContent.value)
+      }
+      store.dispatch('getMusicListAction', musicdec)
+    }
     const propColumn = [
       {
         type: 'index'
@@ -112,6 +121,7 @@ export default {
       musiclistdec,
       tableData,
       musiclistContent,
+      musicplay,
       getLocalTime
     }
   }

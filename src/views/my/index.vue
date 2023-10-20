@@ -46,7 +46,7 @@ export default {
     const mymv = computed(() => store.state.my.mymv)
     const mycreatelist = computed(() => store.state.my.mycreatelist)
     const mycollectlist = computed(() => store.state.my.mycollectlist)
-
+    console.log(mycreatelist);
     const selectIndex = ref(0)
     const itemData = ref()
     const selectindexHandle = (index) => {

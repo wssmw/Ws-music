@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed,toRaw } from 'vue'
 import { useStore } from 'vuex'
 import { formatTime, getLocalTime, getName } from '../../../../utils/format'
 import WsTable from '@/base_ui/WsTable.vue'
@@ -69,28 +69,22 @@ export default {
     ]
     const store = useStore()
     const musicContent = computed(() => store.state.musictop.musicContent)
-    const tableData = computed(() => {
-      let itemData = []
-      console.log(musicContent)
-      const arr = musicContent.value.tracks
-      for (let i = 0; i < arr?.length; i++) {
-        const s = {
-          index: i + 1,
-          name: arr[i].name,
-          time: formatTime(arr[i].dt),
-          singer: getName(arr[i].ar)
-        }
-        itemData.push(s)
-      }
-      return itemData
-    })
+    const tableData = computed(() =>
+      musicContent.value.tracks?.map((v,i) => ({
+        index:i,
+        id: v.id,
+        name: v.name,
+        time: formatTime(v.dt),
+        singer: getName(v.ar)
+      }))
+    )
     const musicplay = (e) => {
-      const musicContent = {
-        index: e.index - 1,
-        id: props.itemData[e.index - 1].id,
-        list: props.itemData
+      const musicdec = {
+        index: e.index,
+        id: e.id,
+        list: toRaw(musicContent.value.tracks)
       }
-      store.dispatch('getMusicListAction', musicContent)
+      store.dispatch('getMusicListAction', musicdec)
     }
 
     return {
@@ -181,7 +175,7 @@ export default {
   .table-main {
     margin-top: 10px;
     border: 1px solid #d3d3d3;
-    border-top:  2px solid #c20c0c;
+    border-top: 2px solid #c20c0c;
   }
 }
 </style>
