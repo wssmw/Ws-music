@@ -34,7 +34,6 @@
       <NavBottom
         :hasAudio="false"
         :audioInfo="audioInfo"
-        @playClick="playClick"
         @sliderChange="sliderChange"
         :ShowLeft="false"
       />
@@ -57,7 +56,7 @@ export default {
       default: () => {}
     }
   },
-  emits: ['downShow', 'playClick', 'sliderChange'],
+  emits: ['downShow', 'sliderChange'],
   setup(props, { emit }) {
     const store = useStore()
     const musicContent = computed(() => store.getters.musicContent)
@@ -68,9 +67,6 @@ export default {
     const lyricisPlayindex = ref(0)
     const downshow = () => {
       emit('downShow')
-    }
-    const playClick = () => {
-      emit('playClick')
     }
     const sliderChange = (value) => {
       emit('sliderChange', value)
@@ -101,7 +97,6 @@ export default {
       lyriccontentRef,
 
       downshow,
-      playClick,
       sliderChange
     }
   }
@@ -136,6 +131,7 @@ export default {
   .title {
     z-index: 1;
     .right {
+      color: white;
       display: flex;
       justify-content: right;
       padding: 10px 20px 0 0;

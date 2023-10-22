@@ -42,18 +42,18 @@ export default {
     const limit = ref(40)
     const value = ref('全部')
 
-    store.dispatch('musiclist/getMusicListAction', limit.value)
-    store.dispatch('musiclist/getMusicCatListAction')
-    const musiclist = computed(() => store.state.musiclist.musiclist)
-    const total = computed(() => store.state.musiclist.total)
-    const options = computed(() => store.getters['musiclist/options'])
+    store.dispatch('songsheet/getMusicListAction', limit.value)
+    store.dispatch('songsheet/getMusicCatListAction')
+    const musiclist = computed(() => store.state.songsheet.musiclist)
+    const total = computed(() => store.state.songsheet.total)
+    const options = computed(() => store.getters['songsheet/options'])
 
     const selectClick = (e) => {
       const s = {
         limit: limit.value,
         cat: e
       }
-      store.dispatch('musiclist/getMusicListAction', s)
+      store.dispatch('songsheet/getMusicListAction', s)
     }
     const pageChange = (e) => {
       const s = {

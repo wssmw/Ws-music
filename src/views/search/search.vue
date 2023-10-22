@@ -1,11 +1,32 @@
 <template>
   <div class="search">
-    <div class="searchbox">
+    <div class="box">
+      <el-autocomplete
+        style="width: 400px"
+        class="autocomplete"
+        v-model="iptValue"
+        :fetch-suggestions="selecthandle"
+        :trigger-on-focus="false"
+        @select="handleSelect"
+        @keyup.enter="enterClick"
+        placeholder="请输入搜索内容"
+      >
+        <template #prefix>
+          <el-icon><Search /></el-icon>
+        </template>
+        <template #default="scope">
+          <div class="item" v-for="(item, index) in scope" :key="item.id">
+            {{ item.name }}-{{ item.artists[0].name }}
+          </div>
+        </template>
+      </el-autocomplete>
+    </div>
+    <!-- <div class="searchbox">
       <div class="searchipt">
         <input
           class="ipt"
           type="text"
-          v-model="iptvalue"
+          v-model="iptValue"
           ref="iptRef"
           @keyup.enter="enterClick"
           @input="iptInput"
@@ -16,13 +37,13 @@
           <el-icon><Search /></el-icon>
         </button>
       </div>
-      <div v-if="iptvalue.length>0&&isShowSearchThink" class="search-think">
-        <div class="title">搜"{{ iptvalue }}"相关的用户></div>
+      <div v-if="iptValue.length>0&&isShowSearchThink" class="search-think">
+        <div class="title">搜"{{ iptValue }}"相关的用户></div>
         <div class="song">
           <div class="left">单曲</div>
           <div class="right">
-            <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!这里有问题 -->
-            <template v-for="item in iptThink.songs">
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!这里有问题 -->
+    <!-- <template v-for="item in iptThink.songs">
               <div class="item">{{ item.name }}-{{ item.artists[0].name }}</div>
             </template>
           </div>
@@ -52,16 +73,16 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="title">
-      搜索"{{ iptvalue }}",找到{{ searchinfo.songCount }}首单曲.
+      搜索"{{ iptValue }}",找到{{ searchinfo.songCount }}首单曲.
     </div>
     <div class="content">
       <el-tabs class="tabs" type="border-card" stretch>
         <el-tab-pane class="songitem item" label="单曲">
           <el-table
-            :data="tableData" 
+            :data="tableData"
             style="width: 100%"
             @cell-click="musicplay"
           >
@@ -102,19 +123,20 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const iptValue = route.query.value
-    store.dispatch('search/getSearchInfoAction', iptValue)
+    const iptValue = ref(route.query.value)
+    watch(route, (newValue) => {
+      store.dispatch('search/getSearchInfoAction', route.query.value)
+      iptValue.value = route.query.value
+    })
+    store.dispatch('search/getSearchInfoAction', iptValue.value)
     const searchinfo = computed(() => store.state.search.searchinfo)
     const iptRef = ref()
-    
-    const iptvalue = ref('')
     const iptThink = computed(() => store.state.search.searchsuggest)
-    console.log(iptThink.value);
-    const isShowSearchThink=ref(false)
-    iptvalue.value = iptValue
+    console.log(iptThink.value)
+    const isShowSearchThink = ref(false)
     const tableData = ref([])
     watch(searchinfo, (newValue) => {
-      console.log("数据更新");
+      console.log('数据更新')
       tableData.value = []
       let arr = newValue?.songs
       for (let i = 0; i < arr.length; i++) {
@@ -128,11 +150,11 @@ export default {
         tableData.value.push(s)
       }
     })
-    const enterClick = () => {
-      iptRef.value.blur()
-      isShowSearchThink.value=false   
-      store.dispatch('search/getSearchInfoAction', iptvalue.value)
-    }
+    // const enterClick = () => {
+    //   iptRef.value.blur()
+    //   isShowSearchThink.value = false
+    //   store.dispatch('search/getSearchInfoAction', iptValue.value)
+    // }
     const musicplay = (e) => {
       const musicContent = {
         index: e.index - 1,
@@ -142,20 +164,33 @@ export default {
       store.dispatch('getMusicListAction', musicContent)
     }
     const iptInput = debounce(async () => {
-      store.dispatch('search/getSearchSuggestAction',iptvalue.value)
+      store.dispatch('search/getSearchSuggestAction', iptValue.value)
       // console.log(1);
       // const res = await getSearchSuggest(iptValue.value||iptvalue.value)
       // console.log(res);
       // iptThink.value = res.result
     }, 1000)
-    const iptFocus=()=>{
-      isShowSearchThink.value=true
+    const iptFocus = () => {
+      isShowSearchThink.value = true
     }
-    const iptFocusout=()=>{
-      isShowSearchThink.value=false
+    const iptFocusout = () => {
+      isShowSearchThink.value = false
+    }
+    // 按回车键跳转
+    const enterClick = (item) => {
+      store.dispatch('search/getSearchInfoAction', iptValue.value)
+    }
+    const selecthandle = async (a, cb) => {
+      await store.dispatch('search/getSearchSuggestAction', iptValue.value)
+      const iptThink = computed(() => store.state.search.searchsuggest)
+      cb(iptThink.value.order.map((v) => toRaw(iptThink.value[v]))[0])
+    }
+    const handleSelect = (item) => {
+      store.dispatch('search/getSearchInfoAction', item.name)
+      iptValue.value = item.name
     }
     return {
-      iptvalue,
+      iptValue,
       searchinfo,
       tableData,
       iptThink,
@@ -166,7 +201,9 @@ export default {
       musicplay,
       iptInput,
       iptFocus,
-iptFocusout
+      iptFocusout,
+      selecthandle,
+      handleSelect
     }
   }
 }
@@ -175,104 +212,20 @@ iptFocusout
 <style lang="less" scoped>
 .search {
   width: 80%;
+  padding-top: 20px;
   margin: 0 auto;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  .searchbox {
-    position: relative;
-    .searchipt {
-      overflow: hidden;
-      width: 50%;
-      height: 40px;
-      margin: 10px auto;
-      // background-color: red;
-      border: 1px solid black;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .ipt {
-        margin-left: 20px;
-        height: 80%;
-        width: 90%;
-        border: none;
-      }
-      .ipt:focus {
-        outline: none;
-      }
-      .btn {
-        width: 40px;
-        border: none;
-        height: 100%;
-        border-left: 1px solid black;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-      }
-    }
-    .search-think {
-      font-size: 5px;
-      width: 460px;
-      background-color: red;
-      color: black;
-      position: absolute;
-      border-radius: 10px;
-      z-index: 99;
-      top: 110%;
-      left: 50%;
-      transform: translateX(-50%);
-      overflow: hidden;
-      .title {
-        width: 100%;
-        height: 40px;
-        font-size: 5px;
-        color: black;
-        padding-left: 10px;
-        background-color: #ccc;
-        margin: 0px;
-        line-height: 40px;
-      }
-      .song,
-      .singer,
-      .album,
-      .musiclist {
-        display: flex;
-      }
-      .singer .left,
-      .album .left,
-      .musiclist .left,
-      .song .left {
-        flex: 1;
-        display: flex;
-        align-items: start;
-        margin-top: 5px;
-      }
-      .singer .right,
-      .album .right,
-      .musiclist .right,
-      .song .right {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-
-        flex: 3;
-        font-weight: 500;
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        border-bottom: 1px solid black;
-        border-left: 1px solid black;
-        .item {
-          margin: 5px 10px;
-        }
-      }
-    }
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  .box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
+
   .title {
     width: 90%;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: 20px;
   }
   .tabs {
     width: 90%;

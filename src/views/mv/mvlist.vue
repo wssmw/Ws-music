@@ -27,6 +27,7 @@ import MvItem from '@/components/MvItem.vue'
       const router = useRouter()
       const store = useStore()
       store.dispatch('mv/getMvListAction')
+      const isPlaying = computed(() => store.state.isPlaying)
       const mvlist = computed(() => store.state.mv.mvlist.map(v=>({
         coverUrl:v.cover,
         title:v.name,
@@ -37,6 +38,9 @@ import MvItem from '@/components/MvItem.vue'
       })))
       console.log(mvlist.value);
       const mvclick = (item) => {
+        if(isPlaying.value){
+          store.commit('changeIsPlaying')
+        }
         router.push({
             path:'/mv/mvplay',
             query:{

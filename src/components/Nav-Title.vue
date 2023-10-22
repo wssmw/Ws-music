@@ -7,53 +7,36 @@
       我的音乐
     </div>
     <div class="center">
-      <router-link active-class="active" class="index" to="/main"><el-icon>
-          <House />
-        </el-icon>首页</router-link>
-      <router-link active-class="active" class="find" to="/mv"><el-icon>
-          <VideoPlay />
-        </el-icon>MV</router-link>
-      <router-link active-class="active" class="music" to="/my"><el-icon>
-          <Avatar />
-        </el-icon>我的音乐</router-link>
+      <router-link active-class="active" class="index" to="/main"
+        ><el-icon> <House /> </el-icon>首页</router-link
+      >
+      <router-link active-class="active" class="find" to="/mv"
+        ><el-icon> <VideoPlay /> </el-icon>MV</router-link
+      >
+      <router-link active-class="active" class="music" to="/my"
+        ><el-icon> <Avatar /> </el-icon>我的音乐</router-link
+      >
     </div>
     <div class="right">
-      <!-- <SearchThink class="search" @search="iptInput" @Clickcb="enterClick">
-        <div class="search-think">
-          <div class="song">
-            <div class="left">单曲</div>
-            <div class="right">
-              <template v-for="item in iptThink.songs">
-                <div class="item">{{ item.name }}-{{ item.artists[0].name }}</div>
-              </template>
-            </div>
+      <el-autocomplete
+        class="autocomplete"
+        v-model="inputValue"
+        :fetch-suggestions="selecthandle"
+        :trigger-on-focus="false"
+        :fit-input-width="true"
+        @select="handleSelect"
+        @keyup.enter="enterClick"
+        placeholder="请输入搜索内容"
+      >
+        <template #prefix>
+          <el-icon><Search /></el-icon>
+        </template>
+        <template #default="scope">
+          <div class="item" v-for="(item, index) in scope" :key="item.id">
+            {{ item.name }}-{{ item.artists[0].name }}
           </div>
-          <div class="singer">
-            <div class="left">歌手</div>
-            <div class="right">
-              <template v-for="item in iptThink.artists">
-                <div class="item">{{ item.name }}</div>
-              </template>
-            </div>
-          </div>
-          <div class="album">
-            <div class="left">专辑</div>
-            <div class="right">
-              <template v-for="item in iptThink.albums">
-                <div class="item">{{ item.name }}-{{ item.artist.name }}</div>
-              </template>
-            </div>
-          </div>
-          <div class="musiclist">
-            <div class="left">歌单</div>
-            <div class="right">
-              <template v-for="item in iptThink.playlists">
-                <div class="item">{{ item.name }}</div>
-              </template>
-            </div>
-          </div>
-        </div>
-      </SearchThink> -->
+        </template>
+      </el-autocomplete>
       <div class="avatar">
         <div class="avatarlogin">
           <div v-if="!isLogin" @click="loginClick">登录</div>
@@ -95,15 +78,11 @@ import {
   getUserMessage,
   getExitLogin
 } from '../service/login/login'
-import { useRouter } from 'vue-router'
-import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { computed, ref, toRaw } from 'vue'
 import LocalCache from '../utils/cache'
 import { useStore } from 'vuex'
-import SearchThink from '../base_ui/Search-Think.vue'
 export default {
-  components: {
-    SearchThink
-  },
   setup() {
     const isActive = ref(false)
     const isLogin = ref(false)
@@ -111,8 +90,8 @@ export default {
     const imgUrl = ref('')
     const userInfo = computed(() => store.state.userinfo)
     const router = useRouter()
+    const route = useRoute()
     const store = useStore()
-    const iptThink = computed(() => store.state.search.searchsuggest)
     let check = null
     const tohome = () => {
       router.push('/main/recommend')
@@ -141,7 +120,7 @@ export default {
           clearInterval(check)
         }
         if (res3.code == 803) {
-          console.log("账号登录");
+          console.log('账号登录')
           clearInterval(check)
           isLogin.value = true
           isActive.value = false
@@ -169,18 +148,30 @@ export default {
       isLogin.value = false
       router.go(0)
     }
-    // 输入框输入，防抖
-    const iptInput =(value) => {
-      store.dispatch('search/getSearchSuggestAction', value)
-    }
+    const inputValue = ref('')
+
     // 按回车键跳转
-    const enterClick = (value) => {
+    const enterClick = (item) => {
       router.push({
         path: '/search',
         query: {
-          value
+          value: inputValue.value
         }
       })
+    }
+    const selecthandle = async (a, cb) => {
+      await store.dispatch('search/getSearchSuggestAction', inputValue.value)
+      const iptThink = computed(() => store.state.search.searchsuggest)
+      cb(iptThink.value.order.map((v) => toRaw(iptThink.value[v]))[0])
+    }
+    const handleSelect = (item) => {
+      router.push({
+        path: '/search',
+        query: {
+          value: item.name
+        }
+      })
+
     }
     return {
       tohome,
@@ -189,13 +180,14 @@ export default {
       isLogin,
       userInfo,
       iptRef,
-      iptThink,
+      inputValue,
 
       loginClick,
       cancleLogin,
       exitClick,
-      iptInput,
       enterClick,
+      selecthandle,
+      handleSelect
     }
   }
 }
@@ -256,69 +248,17 @@ export default {
     display: flex;
     margin-right: 10%;
     align-items: center;
-
-    // .search-think {
-    //   font-size: 5px;
-    //   width: 250px;
-    //   background-color: red;
-    //   color: black;
-    //   position: absolute;
-    //   border-radius: 10px;
-    //   z-index: 99;
-    //   top: 100%;
-    //   overflow: hidden;
-
-    //   .title {
-    //     height: 40px;
-    //     font-size: 5px;
-    //     color: black;
-    //     padding-left: 10px;
-    //     background-color: #ccc;
-    //   }
-
-    //   .song,
-    //   .singer,
-    //   .album,
-    //   .musiclist {
-    //     display: flex;
-    //   }
-
-    //   .singer .left,
-    //   .album .left,
-    //   .musiclist .left,
-    //   .song .left {
-    //     flex: 1;
-    //     display: flex;
-    //     align-items: start;
-    //     margin-top: 5px;
-    //   }
-
-    //   .singer .right,
-    //   .album .right,
-    //   .musiclist .right,
-    //   .song .right {
-    //     overflow: hidden;
-    //     text-overflow: ellipsis;
-    //     white-space: nowrap;
-
-    //     flex: 3;
-    //     font-weight: 500;
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: start;
-    //     border-bottom: 1px solid black;
-    //     border-left: 1px solid black;
-
-    //     .item {
-    //       margin: 5px 10px;
-    //     }
-    //   }
-    // }
+    .autocomplete {
+      width: 200px;
+      .item {
+        width: 200px;
+      }
+    }
     .search {
       .search-think {
-        font-size: 5px;
+        font-size: 12px;
         width: 250px;
-        background-color: red;
+        background-color: #fff;
         color: black;
         position: absolute;
         border-radius: 10px;
@@ -345,6 +285,8 @@ export default {
         .album .left,
         .musiclist .left,
         .song .left {
+          color: #000;
+          font-weight: normal;
           flex: 1;
           display: flex;
           align-items: start;
@@ -364,8 +306,8 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: start;
-          border-bottom: 1px solid black;
-          border-left: 1px solid black;
+          border-bottom: 1px solid #ccc;
+          border-left: 1px solid #ccc;
 
           .item {
             margin: 5px 10px;

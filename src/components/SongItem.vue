@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="top">
-      <img v-lazy class="img" :src="imgurl" alt="" />
+      <img v-lazy="imgurl" class="img" alt="" />
       <div class="cover">
         <div class="left">{{ formatCount(playCount) }}</div>
         <div class="right"></div>

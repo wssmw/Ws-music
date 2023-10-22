@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 import recommend from './main/recommend'
 import musictop from './main/musictop'
-import musiclist from './main/musiclist'
+import songsheet from './main/songsheet'
 import playlist from './main/playlist'
 import singer from './main/Singer'
 import mv from './mv/mv'
@@ -77,9 +77,8 @@ export default createStore({
   },
   actions: {
     async getMusicListAction({ state, commit }, { index, id, list }) {
-      console.log(index, id, list)
+      console.log(list,'list');
       const res = await getPlayMusic(id)
-      console.log(res)
       const lyricRes = await getPlayMusicLyric(id)
       const lyric = parseLyric(lyricRes.lrc.lyric)
       commit('changeLyric', lyric)
@@ -150,7 +149,7 @@ export default createStore({
   modules: {
     recommend,
     musictop,
-    musiclist,
+    songsheet,
     playlist,
     singer,
     my,

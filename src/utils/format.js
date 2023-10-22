@@ -48,7 +48,7 @@ function getSingerderc(s){
 
 function formatTimetoms(s){
   let  m=Math.floor(s/60)
-  let b=s%60
+  let b=Math.floor(s%60)
   m=m>=10?m:'0'+m
   b=b>=10?b:'0'+b
   return m+":"+b

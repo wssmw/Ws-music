@@ -86,7 +86,6 @@ export default {
       return itemData
     })
     const musicplay = (e) =>{
-      console.log(musiclistContent.value,e);
       const musicdec = {
         index: e.index,
         id: e.id,

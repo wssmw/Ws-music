@@ -3,6 +3,7 @@
     <el-table
       stripe
       :data="tableData"
+      :height="height"
       style="width: 100%"
       @cell-click="cellClick"
     >
@@ -24,6 +25,8 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+
 export default {
   props: {
     propColumn: {
@@ -37,10 +40,18 @@ export default {
     cellClick: {
       type: Function,
       default: () => {}
+    },
+    height:{
+      type:Number,
+      default:0
     }
   },
   setup(props) {
-    return {}
+    const height=computed(()=>props.height==0?null:props.height)
+    console.log(height);
+    return {
+      height
+    }
   }
 }
 </script>

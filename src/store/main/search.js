@@ -24,6 +24,7 @@ const SingerMoudle = {
   },
   actions: {
     async getSearchInfoAction({ commit }, keywords) {
+      console.log(keywords);
       const searchinfo = await getSearchInfo(keywords)
       console.log(searchinfo,'dasd');
       commit('changeSearchInfo',searchinfo.result)

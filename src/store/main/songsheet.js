@@ -1,6 +1,6 @@
 import { getMusicList, getMusicCatList } from '@/service/main/musiclist'
 
-const MusicListMoudle = {
+const SongSheetMoudle = {
   namespaced: true,
   state: {
     musiclist: [],
@@ -61,4 +61,4 @@ const MusicListMoudle = {
     }
   },
 }
-export default MusicListMoudle
+export default SongSheetMoudle

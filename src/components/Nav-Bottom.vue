@@ -5,7 +5,7 @@
         v-model="audioInfo.slidertime"
         :max="audioInfo.maxtime"
         @change="sliderChange"
-        @input="inputSlider"
+        :show-tooltip="false"
       />
     </div>
 
@@ -22,7 +22,9 @@
             <img class="img" src="../assets/img/分享.png" alt="" />
           </div>
           <div class="time">
-            {{ formatTimetoms(audioInfo.slidertime) }}
+            {{ formatTimetoms(audioInfo.slidertime) }}/{{
+              formatTimetoms(audioInfo.maxtime)
+            }}
           </div>
         </div>
       </div>
@@ -40,7 +42,7 @@
           <img
             class="img"
             v-else
-            style="margin-left: 6px;"
+            style="margin-left: 6px"
             src="../assets/icon/播放2.png"
             alt=""
           />
@@ -66,17 +68,23 @@
             </div>
             <el-scrollbar height="300px">
               <el-table
-                :show-header="false"
+                height="300"
                 :data="tableData"
                 style="width: 100%"
                 @cell-click="musicplay"
                 highlight-current-row
                 :row-class-name="tableRowClassName"
               >
-                <el-table-column prop="name" label="Name" />
-                <el-table-column prop="singer" label="singer" />
-                <el-table-column prop="time" label="time" width="70" />
+                <el-table-column :show-overflow-tooltip="true" prop="name" label="名字" />
+                <el-table-column :show-overflow-tooltip="true" prop="singer" label="歌手" />
+                <el-table-column :show-overflow-tooltip="true" prop="time" label="时间" width="70" />
               </el-table>
+              <!-- <WsTable
+                :propColumn="propColumn"
+                :tableData="tableData"
+                :cell-click="musicplay"
+                :height="300"
+              /> -->
             </el-scrollbar>
 
             <template #reference>
@@ -142,7 +150,7 @@ export default {
       default: true
     }
   },
-  emits: ['upShow', 'playClick', 'sliderChange'],
+  emits: ['upShow', 'sliderChange'],
   setup(props, { emit }) {
     const store = useStore()
     const musicContent = computed(() => store.getters.musicContent)
@@ -152,9 +160,15 @@ export default {
     const ismuted = computed(() => store.state.ismuted)
     const listIndex = computed(() => store.state.listIndex)
     const musicUrl = ref('')
-    const tableData = ref([])
-    const totalMusic = ref(0)
-
+    const tableData = computed(() =>
+      musiclist.value.map((v,i) => ({
+        index: i + 1,
+        name: v.name,
+        time: formatTime(v.dt),
+        singer: getName(v.ar)
+      }))
+    )
+    const totalMusic = computed(() => musiclist.value.length)
     // :src="musicContent?.al.picUrl||musicContent?.artists[0].img1v1Url"
     watch(musicContent, (newValue) => {
       // console.log(newValue.al.picUrl);x
@@ -165,24 +179,23 @@ export default {
         musicUrl.value = newValue.album.artist.img1v1Url
       }
     })
-    watch(musiclist, (newValue) => {
-      tableData.value = []
-      totalMusic.value = newValue?.length
-      const arr = newValue
-      for (let i = 0; i < arr.length; i++) {
-        const s = {
-          index: i + 1,
-          name: arr[i].name,
-          time: formatTime(arr[i].dt),
-          singer: getName(arr[i].ar)
-        }
-        tableData.value.push(s)
-      }
-      console.log(tableData.value)
-    })
+    // watch(musiclist, (newValue) => {
+    //   tableData.value = []
+    //   // totalMusic.value = newValue?.length
+    //   const arr = newValue
+    //   for (let i = 0; i < arr.length; i++) {
+    //     const s = {
+    //       index: i + 1,
+    //       name: arr[i].name,
+    //       time: formatTime(arr[i].dt),
+    //       singer: getName(arr[i].ar)
+    //     }
+    //     tableData.value.push(s)
+    //   }
+    //   console.log(tableData.value)
+    // })
     // 暂停开始函数
     const playClick = () => {
-      emit('playClick')
       store.commit('changeIsPlaying')
     }
     const nextMusic = () => {
@@ -191,7 +204,6 @@ export default {
     const prevMusic = () => {
       store.dispatch('nextMusicAction', false)
     }
-
     const sliderChange = (value) => {
       console.log(1, value)
       emit('sliderChange', value)
@@ -199,11 +211,6 @@ export default {
     const upshow = () => {
       emit('upShow')
     }
-
-    const inputSlider = (value) => {
-      console.log(value)
-    }
-
     const orderClick = () => {
       if (orderIndex.value === 2) {
         store.commit('changeOrderIndex', 0)
@@ -228,7 +235,6 @@ export default {
     // 播放列表,正在播放高亮
     const tableRowClassName = ({ row, rowIndex }) => {
       if (rowIndex === listIndex.value) {
-        console.log("该行被选中",rowIndex);
         return 'active'
       }
       return ''
@@ -241,7 +247,6 @@ export default {
       ismuted,
       tableData,
       totalMusic,
-
       tableRowClassName,
       formatTime,
       playClick,
@@ -249,14 +254,13 @@ export default {
       prevMusic,
       sliderChange,
       upshow,
-      inputSlider,
       orderClick,
       formatTimetoms,
       voiceChange,
       changemuted,
       musicplay
     }
-  }
+  },
 }
 </script>
 

@@ -6,7 +6,6 @@
     <NavBottom
       @upShow="upShow"
       :audioInfo="audioInfo"
-      @playClick="playClick"
       @sliderChange="sliderChange"
     />
     <audio
@@ -28,7 +27,6 @@
       <ShowMusic
         @downShow="downshow"
         :audioInfo="audioInfo"
-        @playClick="playClick"
         @sliderChange="sliderChange"
       />
     </el-drawer>
@@ -70,9 +68,10 @@ export default {
     const audioRef = ref()
     watch(orderIndex,(newValue)=>{
       if(newValue===2){
+        // 循环播放
         audioRef.value.loop=true
       }else {
-         audioRef.value.loop=false
+        audioRef.value.loop=false
       }
     })
     const upShow = () => {
@@ -98,13 +97,16 @@ export default {
         }
       }
     }
-    const playClick = () => {
-      if (isPlaying.value) {
+    // 当进入mv页面,当前播放歌曲会暂停
+    watch(isPlaying,(newValue)=>{
+      console.log(newValue);
+      if(!newValue){
         audioRef.value.pause()
-      } else {
+      }else {
         audioRef.value.play()
       }
-    }
+    })
+
     const sliderChange = (value) => {
       audioRef.value.currentTime = value
     }
@@ -123,7 +125,6 @@ export default {
       timechange,
       upShow,
       downshow,
-      playClick,
       sliderChange,
       endMusic
     }
